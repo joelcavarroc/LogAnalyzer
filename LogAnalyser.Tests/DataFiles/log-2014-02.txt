@@ -1,0 +1,966 @@
+% 2014-02-03
+% lime 9:30 9:40
+% magenta 9:40 9:50
+	BJNO: Page created. How do we restrict the right? Using eLIMS-LDAP. No decision yet. Write the SOP to grant impersonation rights.
+	PPKU: Access right
+	BMAT: ???
+% beige 9:50 10:00
+% beige 10:15 11:30
+	F2FB: pas de chiffrage 
+	F1FB propose le flux result a l'ancien
+	
+	Sur les charges: pas d'etude de charge
+	
+	A la source, le client n'envoie que des resultats IsDeleted...
+	
+	Est-ce que l'on accepte les hypotheses ou pas ?
+	Perso, quoi qu'il arrive, on nous demande de mettre de l'ordre dans des donnees alors qu'il n'y a aucune coherence (donnees historiques entre autre).
+	J'ai l'impression qu'on nous le reprochera.
+	
+% EOL-CT 11:30 11:50
+	Reponse a FMEO avec copie FD2B.
+
+% COM_BFKE 14:10 14:35
+	Questions: 4000 entries => 400 ms
+	1000x1 => 1700 ms
+	20x
+	
+	On fait simple et je lui envoie une query qui evite le "If not exists".
+	Mais c'est moins performant dans le cas ou le lien existe deja...
+	
+% BEIGE 15:00 16:00
+% MAGENTA 16:00 17:30
+	Pb avec les droits pour taper dans LDAP... 
+% ARC 17:30 19:00
+	
+% 2014-02-04
+% BEIGE 9:00 11:00
+	Les regles sur le PCC (Results/ERMS) doit contenir des regles
+	Les validations sur les donnees referentielles venant d'Eurodat restent
+% DEP 11:30 12:00
+% BEIGE 13:00 14:05
+% BEIGE 14:05 15:20
+% EOL 15:20 18:00
+	Acces direct de EOL-CT a la base
+	=> Incomprehension (de qui?) et de transformation d'une de mes remarques. Je parlais de l'acces de EOL-CT a sa propre base plutot que d'EOL CT a la base d'EOL.
+	Pourquoi ne pas fqire d'EOL-CT la source des donnees (on s'est deja pose la question) mais ca semble une bonne option pour transferer les couts de EOL vers EOL-CT.
+% ARC 18:00 19:00
+
+
+Regarder les tests de Results/ERMS
+
+% 2014-02-05
+% TRAV 8:00 16:00
+
+% 2014-02-06
+% BEIGE 3:00 10:30
+
+% 2014-02-07
+% ARC 4:00 8:30
+% EOL-CT 8:30 9:30
+% BEIGE 9:30 11:00
+% ARC 11:00 12:00
+
+% 2014-02-10
+% EOL 5:30 7:30
+% COM_BJNO 7:30 8:30
+	Sur l'impersonation
+% EOL 8:30 9:30
+Replication:
+If we can use the DBA mechanism, this is free for us.
+Otherwise
+• we have to check that our EOL_SQL2008↔Eurodat replication does not clash with the DBA's Eurodat↔Euodat replication
+• we have to write the SOP for maintaining this replication and provide them to DBAs
+Do we have a history of the replicated changes?
+This will be a very political subject: DBAs would wonder why we use our own replication.
+
+We agree that the "Single service" option seems the most interesting. If too expensive, we would fall back on the GZIP option.
+
+Actions
+• BLAM: contact BMDA for the SLA of ERMS: how many 20M messages can we send per minute?
+• FANO: contact ERMS team to know if they would accept the options
+o dedicated ERMS
+o don't use ERMS routing mechanism
+% ARC 9:30 13:30
+
+% 2014-02-11
+% DEPL 4:30 6:00
+	Naveen, new, 2 month
+	Chetan,
+% ARC 6:00 8:15
+% EOL 8:15 12:30
+
+% 2014-02-12
+% ARC 5:30 10:00
+% EOL 10:00 10:30
+% EOL-CT 11:00 12:00
+% ARC 12:00 13:30
+
+% 2014-02-13
+% EOL 5:30 7:00
+	Impersonation. Je vérifie si la méthode EOLRoleProvider.GetUsersInRole  est utilisée dans notre code, mais ce n'est pas le cas.
+% ARC 7:00 10:00
+% BEIGE 10:00 10:30
+% COM_BMAT 10:30 11:00
+	demande de conseil d'archi et se plaint de ne pas avoir las guidelines....
+% EOL-CT 11:00 12:30
+	Données de référence et cache: définir les stratégies, les crigères de recherche, etc.
+	Base client: 67000 lignes
+	Partie sur une hypothèse ???
+	- Code/name/city and eol instance.
+	
+	1 serveur applicatif par instance ou 1 serveur applicatif qui permet de configurer tous les EOLs
+		=> FMEO dit que FGUD a décide ça.
+		
+	Pour un seul EOL-CT, il est prévu qu'il soit situé ???? 
+	Schéma de déploiement non encore décid
+% ARC 12:30 13:30
+	
+% 2014-02-14
+% BMAT 5:20 5:30
+% REC 5:30 6:30
+
+Which version of SQL Server?
+2008 R2.
+
+I asked some questions about SQL and databases:
+
+Could you explain what is a join? 
+	A join is like to get data from two tables and get.
+Inner join vs outer join?
+	No clear...
+
+What is a union and difference with union all? 
+	It is a kind of two tables. Give the distinct row.
+	Union all can give you all the rows, without filtering the duplicate.
+
+How do you select the 10 first results?
+	top(10)
+	
+using row_number to skip rows
+
+What is a collation? 
+	Could not understand the answer but I did not catch.
+	
+Coaslesce:
+	Multiple IsNull
+	
+What is a clustered index?
+	Explain the index concept.
+	
+	No clear.
+	
+What is a transaction? 
+	Commit/rollback
+	ACID => ok
+	Atomicity
+	C => don't remember
+	I => 
+Hear the phone buzzing...
+
+2PC ?
+	No.
+	
+About SSRS:
+Which version do you use? 
+	2008 R2 only
+
+How have you learnt SSRS? 
+	Self learning. Used Youtube and test on local machine.
+	Then Google and hand-offs.
+	
+How to explain SSRS?
+	It is a reporting tool from MS where you can design report in a very good report.
+	Report Builder to build report
+	Can export to different format
+	Multiple type of reports (drilldown)
+	Pull data from the database
+	
+What are the main components?
+
+
+What is report manager?
+	It is like give you the connection => don't use it.
+	
+
+What are the role defined in SSRS?
+	Don't know
+
+What type of data sources have you used?
+	Another DB. Use SSIS. SQL
+	XML
+	
+Can you use a web service?
+	Never used but believed yes
+
+Difference between shared and embedded ?
+	Shared: it can be reused for multiple reports. Need to store the credentials
+	Embedded: pulling data from different database ????
+
+What is a query parameter in SSRS?
+	When you have a stored procedure then you want to fetch the data between two dates then you
+	
+Cascade parameter?
+	Creating multiple dataset and pass the value from one dataset to the other
+
+How do you mark the parameter in the SQL query?
+	CAn not understand the question.
+
+How it is shown?
+	It will automatically pop-out
+
+What is data set?
+	It is a set of query that will fetch the field from a data source
+	
+What is RDL ?
+	It is a report definition language. Xml file that define the report.
+
+What kind of output?
+	Pdf, excel, word, ... can modify the output format.
+
+How do you create a web page using SSRS? 
+	Created a ASP.NET page but never used it
+
+Reporting web service?
+	Used it (mainly for configuration).
+
+How do you handle internationalization or localization?
+	Never done that
+	Don't know...
+	
+What are linked reports? 
+	Don't know (explained sub report)
+
+What type of report ?
+	Drilldown, drillthrough
+	
+What are difference with tables and matrices?
+	fixed number of column
+	Matrices have a varying number of colum(n (LOB)
+
+How would you handle a large data set?
+	I'll go for.. Page breakup
+	
+What is a Master/Detail?
+	No 
+	
+Have you used custom assemblies in SSRS?
+	Yes. For date time format, custom expressions, 
+	Add option to add custom assembly
+
+How do you get the current user?
+	Vague
+
+-- How do you create depending parameter?
+	
+Load balancing and performance management?
+	Worked on performance. Optimized the queries. Use execution plan. View custom index.
+	With a lot of help: Cache the report
+	Snapshot: 
+	
+NLB:
+	Don't know 
+
+How do you create your reports?
+	Mostly use the report builder.
+	
+Do not have additional 
+
+He is kind of shy and I am not sure he understood all the questions.
+% BEIGE 9:30 11:30
+% ARC 11:30 13:30
+
+% REVIEW 16:00 16:30
+	BBTA me demande 20 minutes de préparation.
+	
+% REVIEW 16:30 17:30
+	pb avec WebEx qui plante.
+	Objectif court terme: BFBO a demandé de remplir la compensation sheet, objectif et bonus.
+	On va limiter le périmètre à un bilan de l'année et de regarder mes attentes.
+	
+	Ryan Chang. One IT Director. BFBO pas fan de la situation (moi à distance pour EOL)
+	
+	- Sécurisé par mes investigations (multi-countries)
+	- Dans quelle mesure...
+	
+	GIE complique avec moi à distance?
+	=> YLM m'a appuyé.
+	BBTA considère ça dangereux pour EOL
+	
+	Parle de l'embauche au canada;
+	BBTA => on développe l'Inde, plus d'équipe à Nantes (trop éclaté)
+	
+	Les compensations sheet sont protégées par un mot de passe.
+	Cadre par pays... 2.5%
+	
+	Définition des objectifs:
+		- Voir un petit peu ce que ça donne en terme de timing pour les US
+		- Définir les objectifs
+
+% 2014-02-17
+% REC 5:30 6:30
+	Ganesh Mullia
+	
+	Presentation: Accenture India. Mainly.
+
+Which version of SQL Server? 2008R2, 2005, 2012
+
+I asked some questions about SQL and databases:
+
+Could you explain what is a join?
+Join two tables: Customer/City: Join
+Types: inner, outer (l/r), cross
+
+What is a union and difference with union all? 
+Create a single result from two pr more queries. Correct order
+Union all: include duplicate records.
+
+How do you select the 10 first results?
+use Top(10)
+	
+using row_number to skip rows
+row_number > 10 and row < 20
+
+Group by:
+**** Trouble to understand =>
+**** Rank???
+**** not really clear....
+
+What is a collation? 
+It is a property at the database level for case sensitivity/along with geography.
+
+With help => know collate.
+	
+Coaslesce:
+???
+	
+What is a clustered index?
+You have a table, the rows are sorted in a physical order
+For uniqueness, integrity, performance (fetch queries)
+	
+What is a transaction? 
+It's a batch of operation that we do in a table.
+A = Atomic => ok
+C = Consistency => consistent accross
+I = Isolated =>
+D = Durability
+
+2PC ?
+=> no
+	
+About SSRS:
+Which version do you use? 
+	2008R2, 2005
+
+How have you learnt SSRS? 
+	On job.
+	
+How to explain SSRS?
+	It is a reporting plateform developped by MS, part of Intelligence studio.
+	SSAS, SSIS (ETL), 
+	
+------------------------------- line dropped
+	
+What are the main components?
+	Report manager
+	REport server
+	Database (report)
+
+What is report manager?
+	It is a web based tool to configure role/security/connection related.
+
+What are the role defined in SSRS?
+	Browser role
+	Content manager
+	Publisher
+	
+*** Report builder
+
+What type of data sources have you used?
+	It is a linked application database 
+	SQL Server
+	
+Can you use a web service?
+	Never used it
+
+Difference between shared and embedded ?
+	it is shared between multiple report.
+	
+With help, the credential...
+
+What is a query parameter in SSRS?
+	To pass a parameter from the value
+	
+How do you mark the parameter in the SQL query?
+	@ => ok
+
+How it is shown?
+	It is show in the 
+
+Cascade parameter?
+	Must have two datasets. e.g. for country and city
+
+What is data set?
+	It is like a result set to get the data fromt he report and use it
+	
+What is RDL ?
+	It is report file in XML that is used to deploy in the Report Manager
+
+What kind of output?
+	Excel, PDF, Html, (Office writer for Excel, third party tool)
+
+How do you create a web page using SSRS? 
+	No, but his team used it.
+	=> Report
+
+Reporting web service?
+	Used it ... 
+
+How do you handle internationalization or localization?
+	Don't know. No idea.
+	
+What are linked reports? 
+	It is something to change the parameter, security, 
+
+What type of report ?
+	Tabular (tablix), chart, indicator reports.
+	
+What are difference with tables and matrices?
+	THe main difference is that a matrix has a variable number of column
+
+How would you handle a large data set?
+***	Did not get the question. But its answers make sens
+	Grouping/pager.
+	
+What is a Master/Detail?
+	Drilldown 
+	
+Have you used custom assemblies in SSRS?
+	Write code in VB.NET only that can be reused into custom code section.
+
+How do you get the current user?
+	Current_User
+	
+Load balancing and performance management?
+	- from the database: make sure that the query/sp  is correctly tuned. Local table, use only necessary columns, 
+	- report side: Create a cache, 
+	
+never used load balancing.	
+
+How do you create your reports?
+
+Questions?ner
+	Position
+	Number of reports.
+% REC 6:30 7:00 
+	CR
+% SSRS 7:00 10:00
+% BEIGE 10:00 11:20
+	Update/Delete/Get Disclaimer
+	
+	F1GB
+% SSRS 11:20 13:30
+
+% 2014-02-18
+% REC 5:30 6:15
+
+Which version of SQL Server? 2008
+
+I asked some questions about SQL and databases:
+
+Could you explain what is a join?
+To extract data between two tables:
+Inner join, outer, cross
+
+Inner: Only the matching values
+Outer
+
+What is a union and difference with union all? 
+*** repeat
+=> Merge two tables in on table
+*** suppose
+Union = distinct
+
+How do you select the 10 first results?
+Top
+	
+using row_number to skip rows
+Answer too soon.
+
+Group by ?
+Ok
+
+What is a collation? 
+*** repeat
+=> no
+
+What is the keyword Coaslesce used for?
+*** repeat
+=> no
+	
+What is a clustered index?
+it is like you want a column to be a index and physically sort the table
+	
+What is a transaction? 
+Want to have a database activity to rollback/commit.
+Isolation ?
+
+2PC ?
+=> cannot 
+	
+About SSRS:
+Which version do you use? 2008
+
+How have you learnt SSRS? Learnt with Datawhare house coors
+	
+How to explain SSRS?
+	It is a reporting service where you can create some reports given some user requirements
+
+What are the main components?
+	Datasource, dataset, design, 
+*** don't get the question...
+
+What is report manager?
+	It is a front end to see the report and deploy it and gave right to the end user
+
+What are the role defined in SSRS?
+	Publisher, 
+	
+What type of data sources have you used?
+	Used Database, tried Excel
+	
+Can you use a web service?
+	No
+
+Difference between shared and embedded ?
+	shared between report =>
+
+What is a query parameter in SSRS?
+	Filter a dataset based on certain parameter.
+	
+How do you mark the parameter in the SQL query?
+
+How it is shown?
+
+Cascade parameter?
+	Ok, 
+
+What is data set?
+	It is like where you actually extract the data fromt the database
+	
+What is RDL ?
+	Report Definition Language.
+	Xml
+
+What kind of output?
+	CSV, TExt, Excel
+
+How do you create a web page using SSRS? 
+	haven't done it 
+
+Reporting web service?
+	Never used it
+
+How do you handle internationalization or localization?
+	???
+	
+What are linked reports? 
+	Good explain
+
+What type of report ?
+	Matrix, charts, indicators, gauge, linear, bar chart.
+	
+What are difference with tables and matrices?
+	TAble is like a list kind, 
+	Matrix is for multiple dimensions
+
+How would you handle a large data set?
+	
+	
+What is a Master/Detail?
+	Group on a particular value and then drilldown
+	
+Have you used custom assemblies in SSRS?
+	WE have used some coding
+
+How do you get the current user?
+	built-in parameter
+	don't know exactly
+	
+Load balancing and performance management?
+	- check the query and check the join and add indexes
+	- create stored procedure to be called by the query
+	
+	- network issue
+	
+	- Can create some snapshot or cache the data. 	
+	
+Load balancing	
+
+How do you create your reports?	
+	We a
+	
+Questions?
+	Position
+	
+Very shy and really had trouble to understand me
+% ARC 6:15 10:00
+% BLAM 10:00 11:00
+https://mantis.eurofins.local/view.php?id=87474 => *** Repository
+
+https://mantis.eurofins.local/view.php?id=82663 => *** On suggeste de faire un EnsureDatabaseExists plutôt que d'avoir un getter qui fait la création de la base.
+	C'est assez spécial comme implémentation. On suggères de découper en deux (EnsureDataBaseExists, GetConnectionString)
+	==> Voir avec Arnaud
+	
+	Histoire des données historique sur les rapports. Comment les marquer comme vu => Voir avec FGUH si on les mets comme nouveau tous avec loption de les marquer tous comme vus.
+	
+	REvu de code des indiens: Arnaud travaillera avec Lana pour le déploiement automatique.
+	
+	La coding policy est suspendue. BBTA a refusé d'ajouter le monde batch de Resharper.
+	=> Numéro de version au coding policy.
+		Réunion à la demand et au cas par cas.
+
+		Aldric pilote Kaki/MAgenta et manage administrativement Nuno/Merouane/Petr/Dan/Fabian.
+% ARC 11:00 13:30	
+
+% 2014-02-19
+% LIME 5:30 6:30
+	Sort order based on Severity Level... 
+	Test/Parameter translation
+	English 
+% EOL 7:00 7:30
+% ARC 7:30 13:30
+	
+% 2014-02-20
+% REC 5:30 5:40
+	Annulé...
+% SSRS 5:40 13:30
+	J'ai essayé plusieurs méthodes pour la gestion des traductions:
+	1) Par ressources: Ca marche mais la mise en oeuvre peut être compliquée à cause des droits:  c.f. http://stackoverflow.com/questions/7054335/ssrs-external-assembly-securitypermission-in-preview-pane
+						C'est de loin la meilleure solution mais pas la plus simple
+	2) Par paramètre et linked report: On crée un paramètre avec différentes valeurs et dans le linked report, on sélectionne la valeur par défaut en fonction de la langue...
+	3) Par paramètre et sans Linked report: On définit un paramètre à des valeurs sous la forme xxxx_LangId_CountryId (e.g. toto_fr-FR). Comme paramètre par défaut, on peut coder ="toto_"+User!LanguageId.
+		Dans le cas où le paramètre n'existe pas, ça foire...
+	4) Par paramètre et sans linked report: Similaire au précédent avec des ifs... ou un switch. Cela permet de gérer le cas par défaut... mais il faut faire ça pour chaque champ.
+	
+% 2014-02-21
+% REC 5:30 6:35
+
+I asked some questions about SQL and databases:
+
+Could you explain what is a join?
+	Join to multiple tables. Inner Join, Outer join, cross.
+
+What is a union and difference with union all? 
+	combine the data from two tables. The database structure should be the same~
+Union all	
+
+How do you select the 10 first results?
+select top(10)
+	
+using row_number to skip rows
+ok
+
+Group by ?
+ok
+
+What is a collation? 
+It is how.
+=> No
+
+What is the keyword Coaslesce used for?
+<=> IsNull + variable number of values
+	
+What is a clustered index?
+TO have a faster retrieval of an table. 
+The data will be rearranged.
+	
+What is a transaction? 
+Performing data transaction to start being-tran/
+A => ok
+C =>  ?. Read committed, repeatable read.
+I => Ok
+D => more or less
+
+2PC ?
+=> no
+	
+About SSRS:
+Which version do you use? 2008 R2
+
+How have you learnt SSRS? 
+Used to work on SQL Server and then asked to move on SSRS
+	
+How to explain SSRS?
+	It is a reporting tool 
+
+What are the main components?
+	Report Designer => Can create multiple report, drillthrough, ...
+	, REport server, report manager
+
+What is report manager?
+	It is a UI to manage the report and the 
+
+What are the role defined in SSRS?
+	Content manager permission:
+	
+	
+What type of data sources have you used?
+	Can use two type: Sql Server, SSAS.
+	
+Can you use a web service?
+	No
+
+Difference between shared and embedded ?
+	Ok
+
+What is a query parameter in SSRS?
+	ok
+	
+How do you mark the parameter in the SQL query?
+	@ => ok
+
+Cascade parameter?
+	ok
+
+What is data set?
+	the output of a query is a dataset, are call stored procedure.
+	
+What is RDL ?
+	It is a xml format
+
+What kind of output?
+	Excel, xml, html, ... ok
+
+How do you create a web page using SSRS? 
+	No
+	
+Reporting web service?
+	No
+	Never developped in ASP.NET
+
+How do you handle internationalization or localization?
+	Create linked report and with the translation option. In configuration manager, 
+	=> ok
+	
+What are linked reports? 
+	Ok
+
+What type of report ?
+	Matrix, charts, indicators, gauge, linear, bar chart.
+	
+What are difference with tables and matrices?
+	Not clear.
+
+How would you handle a large data set?
+	???
+	
+What is a Master/Detail?
+	Group on a particular value and then drilldown
+	
+Have you used custom assemblies in SSRS?
+	No
+
+How do you get the current user?
+	User!UserId
+	
+	
+Load balancing and performance management?
+	Optimize the query => ok
+	
+Load balancing	
+	Never have done load balancing.
+% ARC 7:30 9:00
+% ARC 9:00 13:30
+	
+% 2014-02-24
+% REC 5:30 6:30
+	Sort algorithm: Binary search
+		Could not understand my question.
+		Could no explain it
+	Hash table:
+		It's a key pair/value
+		No idea of complexity...
+	String:
+		it is a reference type.
+			=> immutable
+	String vs string: both are the same class
+	DEcimal/Hexadecimal: not good explanations
+	Used custom attributes:
+		No 
+	UML:
+		it is a unified modelling language used to validate the system design.
+			it defines the lifetime of an object. with 
+		Use case diagram: not clear.
+	Design:
+		Observer: publisher/subscriber model.
+		Inversion of control/: Windsor castle:
+			I have a class A and a class B
+		AOP: No
+	Inheritance:
+		class A, with method, and inherit the class B with extend class
+	Open/Closed principle: Should not alter the base class to extend the base class behaviour.
+		Not clear.
+	Boxing:
+		It is ok. 
+		Why should we avoid boxing/unboxing?
+			=> ok
+	Stack vs heap: it is for local variable (automatically frees memory when getting out of scope).
+		Heap. Ok
+		Large object heap.
+	GC:
+		It is used in background to remove managed object from memory. Generation based.
+	Multithreading:
+		Risk: safety issue
+		Deadlock: confused!!!!!!!!!
+	
+	What is a transaction:
+		want to commit in multiple table
+		A => no clear
+		C => no idea
+		I => Dirty reads...
+		D => ...
+	Optimistic concurrency: ??????	
+	2PC:
+		Ok.
+		WS
+		
+% FD2B 8:15 9:45 
+% BBTA 9:45 10:15
+% ARC 10:15 13:30
+
+% 2014-02-25
+% EOL-BBTA 5:30 8:30
+	Je réponds (encore) aux questions de Bruno sur l'histoire du partner...
+	I n'a pas compris que ce n'est pas le partner code qui est important mais le eLIMSImplementationCode du Partner.
+% LINEN 8:30 9:45
+% EOL 10:00 10:20
+	Formalisation UML de la structure du message et le champ règle doit être exprimer en visitant le schéma et les relations du diagramme.
+	
+	Chiffrage réécriture complète d'Ordering:
+		Pas de consigne coté BLAM. Ne voit pas comment passer du temps et comment ne pas être dans la boucle.
+	Prolongation de la licence Talend: Ok pour François pour 1 an (à priori)
+	Pb si on fait le truc pour Stephan hageman
+	BBTA a demandé quoi faire faire à l'équipe de FMEO: Donner un coup de main pour l'implem de référence ou faire les applications mobiles.
+	Get rid off EOL-DB. Db initializer
+
+	Interaction Beige/Lime: 
+		Règles de traduction assez alambiqué.
+	
+% COM_FD2B 10:50 11:00
+	Bruno a besoin de moi, mais François agit sans en tenir compte. Il a dit qu'il m'en aurait parlé et aussi à Dominique... Je ne sais pas qui ment.
+	Je pense que François agit sans faire de sentiment et c'est l'avis de Dominique aussi.
+% EOL-CT 11:00 12:00
+	On commence à 11:19
+	
+	J'ai du mal à entendre.
+	Les services:
+	---	envoyer le document pour le multitenant
+	
+	layer/bussiness&accès aux données. Défini les règles d'accès
+	l'usage de Unity par EOL-CT à l'air totalement consternant... Ils passent le containeur et l'utilise pour récupérer les dépendances !!!!
+% ARC 12:00 13:30
+	
+% 2014-02-27
+% ARC 5:30 8:00
+% EOL 8:00 9:00
+% EOL 9:00 10:10
+% MAN 11:00 13:10
+		REtard de 25 minutes.
+		BLAM: On a livré la M2.
+			Verification de la performance des messages.
+			BBTA: pourquoi. BLAM: Pour vérifier...
+			Impersonation:
+			Revert du boulot pour DE (droit)
+			Results V3: Fix des dates sur le range et la localization
+			Gestion flag AR vu.
+			Validation des élements..
+% MAN 13:10 13:30
+	Cible de François pour recentrer l'équipe autour de Paris et Luxembourg.
+	Transition et recruter qq à Paris.
+	A demander à François des éléments et en parler avec Ryan Chan.
+	A croiser YLM et en à parler: il y a plein de chose à faire aux USA mais ça dépend de ce que je veux faire.
+	Pour rester au Canada, Freelance, donc moins de responsabilité.
+	Pour EOL/Archi, il faut mettre en place un recrutement et le plan de succession avec grosso-modo une timeline de 5 mois (rec) + 3 mois (préavis) + 3 mois (transition)
+	Objectif de la mi-année pour YLM et BFBO.
+	GIE a mentionné mon cas en réunion en demandant si c'était pas un peu compliqué de travailler avec moi à distance. YLM a dit que ça se passe bien.
+	Proposition de budget de François à Gilles: Joël plus sur le budget au bout de 2 mois
+	
+% 2014-02-28
+% REC 5:30 6:30
+	Sort: Two loop.
+		Describes the bubble.
+		Complexity? DO no get the question
+	Hashtable: store a collection of value and the index.
+		In .NET what is the base class of all type: System.Object
+*** communication pb.
+			Ne comprends pas mes questions du tout
+			ToString, 
+			GetHashCode?
+	String:
+		=> it is a value type (wrong)
+		=> it is immutable
+		=> create a new string for all operations
+	Stringbuilder:
+		Ok
+	Bitwise operations:
+		??????????? WTF answers
+		Don't understand the question and use switch case (!!!!!!!!!!)
+	UML:
+		Unified Modelling language. 
+		=> define the class the an
+		Haven't use it
+	Design patterns:
+		We didn't follow design pattern.
+		Observer pattern: no
+		Mediator: no
+	DI:
+	IoC:
+		
+	Difference between value and reference type:
+		heap/stack
+		Boxing/unboxing:
+			value type to reference type.
+		Why it should be avoided:
+			Type safety, boundary.
+	ASP.NET page life cycle:
+		init, load, event, render, unload.
+	Session management:
+		Inproc, session in server or in sql
+	Multithreading in .NET:
+	Lock on table ??? WTF 2
+	
+	Transaction:
+		It is use to begin/commit to do atomic transaction.
+		Isolation? SEparation of particular task skjlfsqdfsdjflsslfksjfs
+	Optimistic concurrency:
+		WTF...
+% ARC 6:30 13:30
+	Prolongement de la discussion d'hier.
+	Comment tenir dans les délais.
+	
+	BBTA a imprimé un message par erreur au Luxembourg
+		
+	Point d'estimation pour le vendredi 7.
+	BBTA m'a dit que ce n'était pas nécessaire que je vienne sur Paris pour l'estimation (mail)
+	
+	Chantier Steve Austin:
+		Qu'est-ce que l'on voit dedans?
+
+		Méthode brutale
+		
+	Ils ont des montages et des besoins comme ça.
+Pb de prix
+Jouer la continuité du contrat...
+Prise de contact. Coté volontaire... mais je peux aller au casse pipe.
+Positionner sur de la haute valeur ajoutée. Carte de la liaison avec l'Europe/EOL/....
+Prévoir des dates...
+Contacter YLM si nécessaire.
+Deux ou trois programmes de changement: kgd, lean dans les labs, eLIMS-NG, le bus-SOA, et la pharma se réorganise
+En parler à des gens, à un sponsor officiel (genre YLM)
+
+% 2014-02-31
+% EOL_ARC 9:00
+
+
+less /cygdrive/c/Users/pjca/SkyDrive/Eurofins/Log/log-2014-02.txt | bash /cygdrive/c/plan/plan

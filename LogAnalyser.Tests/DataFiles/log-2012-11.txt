@@ -1,0 +1,351 @@
+% 2012-11-01
+
+% 2012-11-02
+
+% 2012-11-06
+% EOL_HA 5:15 7:00
+
+
+% 2012-11-07
+% BLUEPRINTS 7:00 7:45
+
+% COM_FJLA 9:30 11:30
+	*Présentation nouveau
+	*Persistence
+
+% COM_FD2B 11:40
+	* Démo à faire pour BMDA
+	* Définir les principes pour les attributes/...
+	* Déplacer réunion persistence
+	
+	
+
+% 2012-11-08
+
+% COM_FD2B 8:00 8:25
+% EOL_ELFREMOVAL 8:30
+	BLAM: YLM and BMDA agreed to put more people on the project if needed.
+	FD2B: 
+	
+	PPKU: 
+		- Changed one dependency. One we are a dependency on EF framework provider 2008 for need features
+		- Tried a substitusion approach. Mechanical approach replace ELF by EF entity. Same for properties and so on.
+			=> Found several problems such as page treatment, 
+			=> Slight difference in instanciations
+			=> Date range mismatch between .NET and SQL server. No symmetry
+			=> ELF normalizing "" to null
+		- Transaction:
+			Not in stored procedures
+			
+			80% is done
+			When work is done a snaptshot will be commited. BLAM is in favour of commiting ASAP
+			
+			
+		
+			rajouter le 
+			
+			
+% 2012-11-09
+% EOL_HA 5:00
+	Après des recherches... il faut lire les logs, ant était inclus plusieurs fois, donc, sûrement pas de build du Jar dans les tests.
+	En changeant le classpath et en enlevant le "." au début, ça marche !!!!!!!!
+	
+	Pour les mots de passe et la configuration du SSL
+	-Djavax.net.ssl.keyStore=C:/glassfish3/glassfish/domains/domain1/config/keystore.jks -Djavax.net.ssl.trustStore=C:/glassfish3/glassfish/domains/domain1/config/cacerts.jks -Djavax.net.ssl.keyStorePassword=changeit -Djavax.net.ssl.trustStore=changeit
+	
+	J'enlève -Dwsat.ssl.enabled=true (même si c'est utile)
+	
+% COM_BMDA 11:00
+	Création de notre porte-feuille de blueprints pour référence dans les SOPs.
+	
+	2011-07x 
+		=> 2011-07g pour le blueprint
+		=> Mettre un Eurodat* (finalement non)
+		=> Finalement on laisse tomber
+		
+	Commande un EOL-2011-07g avec result V2
+		=> 2011-07g avec Eurodat*
+		=> Maxime ouvre le ticket ds Mantis (https://mantis.eurofins.local/view.php?id=71666)
+		
+	Problmèe de la page sur le 2012-12
+	Problème du cartouche sur le multi-layer
+	
+	Ordering import service est bi-directionelle
+	
+	L'ordering import service est capable de communiquer aux bases mais pas avec ERMS....
+	Donc modifier le 2011-07g and 2012-12 pour remettre comme avant.
+	
+	.vsd dans certains cartouches...
+	
+	Pour l'import des données historiques, on fait un outil qui fait tout ça...
+	FPEM: Ajouter l'outil qui fait l'import des données historiques et trouver une façon "sympa" de le mettre
+	
+% COM_FD2B 11:50 13:00
+Sur le problème de ComLIMS, il y a confusion entre modèle conceptuelle et modèle physique. Les deux peuvent être découplés mais le choix de Jorg ne choque pas dominique.
+Par contre, le choix de "workflow" est questionnable... dans le sens où c'est pas forcément un workflow mais des tâches automatiques...
+	
+	
+% 2012-11-12
+% EOL_HA 5:30
+% PRES_BNHO 9:00 9:40
+	Pourquoi autant d'adapteurs dans l'injection ?
+% EOL_HA 9:40 10:20
+	FD2B annule à cause de l'état des lieux en retard
+% EOL_HA 10:20 11:00
+	Mise à jour des tickets et je rajoute les infos pour configurer MSDTC et WS-AT
+% EOL_70926 11:00 11:35
+	Il ne supprime les fichiers que du setup alors que je pense qu'il faudrait virer ELF définitivement...
+	
+% EOL_HA 13:30 15:00
+	Sur la question des transactions déclaratives
+
+% 2012-11-13
+% EOL_HA 5:45 8:00
+% COM_F2DB 11:00 13:00
+	Démo en live avec utilisation de l'injection
+
+% 2012-11-14
+% EOL_HA 5:30 7:30
+% EOL_HA 8:30 9:00
+% EOL_71666 9:00 9:20
+	Première soumission
+% EOL_71672 9:20 9:30
+	J'ai envoyé un mail à Antoine Bous pour avoir plus de renseignement
+% EOL_71668 9:30 10:00
+% EOL_17818 10:00 11:20
+	Remarque sur les chaînes de caractères (la taille est incorrecte).
+	
+% 2012-11-15
+% EOL_HA 5:00 8:00
+	Mesure des perfs des différentes approches
+% EOL_MAN 8:00 8:15
+	Revue de ticket
+% EOL_BLUEPRINTS 8:15 8:30
+	Commit + modification du EOL-2011-07g with Results V2
+% EOL_ELFREMOVAL 8:30 9:00
+% EOL_HA 9:00 9:30
+% EOL_70457 9:30 10:40
+	Afficher le site de la EOL-2011-07 dans EOL-2012-12...
+	L'utilisateur de relog. Il y a besoin de changer la page d'origine pour pouvoir
+	=> pas de conclusion mais je sens que la redirection est la chose la plus simple à faire (avec éventuellement un lien arrière)
+% COM_FD2B 10:40 10:50
+	Rapide discussion... 
+% EOL_HA 10:50 12:30
+	Creation du projet avec Castle
+	=> La doc est mal faite (ou pas intuitive) comparée à MSDN ou à la doc de Spring.NET
+% EOL_HA 13:50 15:10
+	Comparaison des perf
+% EOL_HA 20:00 20:30
+		Je lance la comparaison
+		
+% 2012-11-16
+% EOL_HA 5:30 7:30
+
+% COM_FD2B 11:00 11:30
+	Il me fait remarquer que mes résultats sont suspects et effectivement, j'ai oublié le commit de la transaction dans le cas des transactions explicites... (1 point en faveur du déclaratif).
+% COM_HA 11:30 13:30
+	Je continue avec mes tests et je mets à jour le ticket...
+	Build d'EOL sur ma machine réelle. 
+	
+% 2012-11-19
+% EOL_HA 5:20 6:30
+
+% COM_FD2B 10:00 12:00
+	Partage de l'image
+	=> En haut à gauche: package dependencies
+	=> avoir dans un seul et même espace, les interfaces avec des méthodes et des données en entrée et en sortie (Business datatype=
+	=> Business component avec des comportements transactionelles définies (ils s'enrollent dans une transaction)
+	=> Application service qui définit la démarquation
+	
+	- 1 package = 1 business component manipuler avec des interfaces
+	- On veut capturer les dépendences entre les composants quel que soit l'implémentation
+	- On veut pouvoir fournir 1 ou plusieurs implémentations avec l'intention d'isoler et avec l'intention de pouvoir les rendre distribubles
+	- Considération du cycle de dev pour pouvoir utiliser des mock-up pour tester et aussi tester localement pour le dév
+	- Eprouver la généralisation en étant le - adhérant à .NET
+	
+	
+	* WS-AT
+		Stabilité avec WS-*
+		
+	Pour tout modèle retenu, retrouver les mêmes invariants (expression des transactions, de l'interop, ...)
+	Non-fonctionel: perf, volume de code, stabilité, ...
+	
+	Deux choses: 
+	Consensus plus fort sur ce modèle de prog dans le monde Java car ce que OpenSource, JCP, ...
+	
+	La question des dépendences entre composants.
+	
+	* FD2B doit mettre le supporting slide au propre
+	* Refactorer le proto pour avoir une séparation interface dans un projet
+	* Singulariser le référentiel d'interface
+	* "Eurofininser" les noms (+ proche du fonctionnel)
+	* Préférer le déclaratif au marquage par attribut (sauf pour les transactions ?) et se concentrer le flux des transactions (et - sur l'isolation)
+	* Surligner ce quoi on est d'accord
+% EOL_HA 20:30 22:00
+
+% 2012-11-20
+% EOL_HA 5:20 6:00
+% EDT_62478 6:00 6:30
+		Review et j'accepte (encore un soucis)
+% EDT_62480 6:30 6:45
+	Review Ok
+% EOL_HA 6:45 8:00
+% EOL_PERF 8:00 8:13
+	Rien... personne n'a travaillé sur le sujet donc ça n'a pas avancé
+% EOL_HA 8:13 10:30
+	Je fais marcher avec les interfaces et les ChannelFactory
+% COm_F1FB 10:30 11:10
+	Problème sur les printings services... 
+% COM_F2DB 11:10 12:00
+	On casse tout et on refait en se rapprichant de l'archi cible
+% EOL_HA 13:00 15:00
+	Je commence à changer en utilisant le nom Ordering
+	Je change les services pour splitter la partie "tierisable" de l'implementation
+	
+% 2012-11-21
+% EOL_HA 5:15 6:30
+% EOL_HA 7:30 9:30
+% EOL_HA 9:30 11:30
+	Discussion avec Abdel
+% COM_BLAM 11:30 15:20
+	Problème de perf sur ELF.
+	On parle avec BJNO et PPKU et on identifie que c'est le chargement des OrderingsPlannings qui merdent.
+	=> Je m'attaque à faire des mesures et à filter les IsDeleted (fait par défaut dans ELF)
+% EOL_ELFREMOVAL 20:30 23:45
+	Je fais le test et ça marche. Il faut rajouter une condition sur la ligne. Par contre, il faut enlever le mapping du IsDeleted (et ça pose quelques soucis d'adaptation mais ça marche)
+	
+% 2012-11-22
+% EOL_ELFREMOVAL 5:30 6:40
+% EOL_ELFREMOVAL 8:30 11:30
+	Meeting.Mail à FD2B:
+En gros, nous avons identifié deux problèmes :
+-	Il y a une régression dans le code qui fait que des objets sont effacés et recrées à chaque fois (lors qu’on ajoute une nouvelle Analyze et quand on passe du step 3 au step 4) ;
+-	ELF filtrait les objets effacés (le fameux flag IsDeleted) mais par défaut EF ne le fait pas (normal…) ;
+
+On a trouvé le problème parce que les queries prenaient de plus en plus de temps chaque fois que l’on passait du step 3 au step 4 en boucle.
+J’ai regardé hier soir pour modifier EF pour que ça marche (on rajoute une condition sur la table OrderingsPlannings  pour ne charger que les lignes non effacées) et on gagne beaucoup (ça dépend de la taille, mais dans mon test, j’étais à 14 à 15 fois plus rapide…).
+J’ai envoyé un patch (incomplet à Janis). Je n’ai pas traité correctement le IsDeleted dans le cas général (certaines repositories ne compilent pas) mais je voulais surtout finir (j’ai terminé à minuit hier soir).
+
+Dans le plan, Petr va regarder le pourquoi de la régression et Janis va regarder continuer sur ce que j’ai fait (et je pense que ça serait une bonne idée de généraliser ça).
+Il y a encore beaucoup de choses à gratter pour gagner en performance.
+% EOL_HA 11:30 12:30
+% COM_BMDA 14:35	
+	- Occupation avec le nouveau
+	- FPEM: ERMS n'est pas là, donc, à Nantes on veut faire emerger des TeamLead. 
+		Le montage serait FPEM reste manager, délègue à Antoine Bous et je surveille le coté technique (1j par semaine)
+		- Validation de ce qui est fait;
+		- Pb avec les transactions (codage contre la base);
+		- Décharger BMDA
+		- Faire le PO pour la remédiation; Virer la flêche entre EOL et EDM
+		- Regarder "BLUE"
+		-
+		
+% EOL_HA 5:40 8:00
+% COM_GIE 8:00 9:00
+	****
+% COM_FJLA 9:30 11:30
+	* Sur PostSharp => Explication AOP, IoC, DI...
+		explication Transaction et proto
+	* Test: Checkout
+		Table test
+		Liste des paramètres
+		Propriété parameter/test
+		Propriétés des tests
+% COM_FD2B 11:30
+	Etats d'âme... On irait pas assez vide
+	Pb sur les KGDs
+	A améliorer:
+		- Interprétation benoit marchal vient chez nous => on va faire du Java
+		
+	
+	
+% 2012-11-27
+
+% COM_BCCA 8:30 9:20
+	Pb build TFS => histoire du path d'output
+% COM_FD2B 9:20
+
+	
+	javax.transaction.xa.XAException: recover call on WS-AT gateway failed due to failed initialization
+	
+	When the web service is annotated with @Stateless => WSIT end points are not deployed.
+	
+	<node name="localhost-domain1" type="CONFIG" node-host="LU01PCV006" install-dir="${com.sun.aas.productRoot}"/>
+	===> Probleme de configuration. Le serveur n'est pas à la place que je pensais (pas dans program files mais ailleurs...)
+	
+	com.sun.xml.ws.client.ClientTransportException: The server sent HTTP status code 403: Forbidden
+	
+	Changed
+	<jvm-options>-Dcom.sun.enterprise.security.httpsOutboundKeyAlias=lu01pcv006.area1.eurofins.local</jvm-options>
+	
+% 2012-11-28
+% EOL_HA 6:00
+Toujours des problèmes... je suis la description dans http://metro.java.net/2.0.1/guide/Configuring_SSL_and_Authorized_Users.html
+
+Il doit me manque une étape... mais je ne trouve pas laquelle
+
+Je reinstalle une instance de glassfish
+Je nomme le domaine wsatDomain
+Copie des fichiers cacerts.jks et keystore.jks dans la nouvelle instance (pour éviter de redéployer les clés)
+=> les endpoint wstx sont dépoyés en http
+
+Je rajoute -Dwsat.ssl.enabled=true dans default config...
+=> les endpoints, pas mieux...
+
+J'ai toujours l'erreur 403 (forbidden)
+
+Je rajoute -Dwsat.ssl.enabled=true dans server-config
+
+http://metro.java.net/2.0/guide/Deploying_and_Configuring_the_WS_TX_Service_on_GlassFish_V3.html
+
+Je rajoute le anonymous logon...
+
+
+
+- Add the following registry key DWORD and set it's value to 31 (1f) -- HKLM\SOFTWARE\Microsoft\WSAT\3.0\ServiceModelDiagnosticTracing
+
+- Restart MSDTC and restart the tracing session
+
+- Perform scenario and then check the trace
+
+http://java.net/jira/browse/WSIT-1501
+A few items we must document for WS-AT:
+ 1. SSL/https usage for WS-AT is disabled by default and can be enabled by setting -Dwsat.ssl.enabled=true
+ 2. Logging and recovery for WS-AT are enabled by default and can be disabled by setting -Dwsat.recovery.enabled=false
+ 3. If a server contains no web service deployments and does contain a WS-AT enabled client, WS-AT endpoints must be deployed manually
+ 4. Due to JDK bug http://monaco.sfbay.sun.com/detail.jsf?cr=6672144 it is necessary set -Dhttp.keepAlive=false when both client and web service are located in the same server.
+	
+http://farkasgabor.blogspot.ca/2009_11_01_archive.html
+
+Bon à priori, il faut que le keystore contienne une clé privée... et pas jsute un certificat...
+
+Ca ne marche pas mais je suis allé un peu plus loin... Pb de coordination ?
+
+javax.xml.ws.WebServiceException: javax.xml.ws.WebServiceException: Sending fault. Context refused registerResponseType is null (this may be due to request timeout)
+=> Je change en WSAT12
+http://java.net/jira/browse/GLASSFISH-18151
+Problème de port 8080 ?
+=> Non
+
+Ajout de 
+-Dhttp.keepAlive=false
+
+tester sans SSL et ça ne marche pas (WSAT10-11-12)
+En SSL, ça fonctionne... avec WSAT10(WSAT11 à l'air de merder) WSAT11 ou WSAT12 Coté serveur et coté client WSAtomicTransactionOctober2004 marche
+
+En résumé, si -Dwsat.ssl.enabled=true et le service en https, ça marche avec le bon accord de la version WSAT
+
+A Essayer: -Dwsat.ssl.enabled=false et le web service en http
+
+=> Ca marche sauf que la transaction n'est pas récupérée par la persistence...
+
+A tester:
+Installed un DB SQL server pour voir si ça marche plutôt qu'avec Derby and JavaDB
+
+-Dwsat.ssl.enabled=true est important !!!!!! avec MSDTC qui ne marche qu'avec SSL (à priori)
+
+----------------------------------
+Configure application pool to support XA...
+	
+% 2012-11-30
+% EOL_HA 5:30
