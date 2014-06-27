@@ -102,6 +102,7 @@ namespace LogAnalyzer
 
                     taskAccumulator.NormalizedTotalDuration += normalizedDuration / 8;
                     taskAccumulator.TotalDuration += taskEntry.Duration;
+                    taskAccumulator.Count++;
                 }
 
                 taskAccumulators.Add(taskAccumulator);

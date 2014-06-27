@@ -32,6 +32,8 @@ namespace LogAnalyzer.ViewModels
         /// </summary>
         public string TaskCode { get; set; }
 
+        public int Count { get; set; }
+
         #endregion
     }
 }

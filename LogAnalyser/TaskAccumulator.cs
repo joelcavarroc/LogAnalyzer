@@ -48,6 +48,8 @@ namespace LogAnalyzer
         /// </summary>
         public TimeSpan TotalDuration { get; set; }
 
+        public int Count { get; set; }
+
         #endregion
     }
 }

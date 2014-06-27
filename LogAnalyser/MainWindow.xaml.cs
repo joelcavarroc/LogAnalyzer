@@ -7,6 +7,7 @@ namespace LogAnalyzer
 {
     using System.IO;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Windows;
     using System.Windows.Input;
 
@@ -89,6 +90,70 @@ namespace LogAnalyzer
                 using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8))
                 {
                     this.viewModel.LogText = this.viewModel.LastSavedText = streamReader.ReadToEnd();
+                }
+            }
+        }
+
+        private void WorkedDays_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (this.WorkedDays.SelectedItem != null)
+            {
+                WorkDayViewModel workDayViewModel = (WorkDayViewModel)this.WorkedDays.SelectedItem;
+                string regExString = string.Format(
+                    @"^%\s+{0}-{1:D2}-{2:D2}\s*$",
+                    workDayViewModel.Date.Year,
+                    workDayViewModel.Date.Month,
+                    workDayViewModel.Date.Day);
+
+                Regex regex = new Regex(regExString, RegexOptions.Multiline);
+
+                Match match = regex.Match(this.LogTextBox.Text);
+                if (match.Success)
+                {
+                    int line = this.LogTextBox.GetLineIndexFromCharacterIndex(match.Index);
+
+                    this.LogTextBox.Select(match.Index, this.LogTextBox.GetLineLength(line));
+
+                    this.LogTextBox.Focus();
+                    this.LogTextBox.ScrollToLine(line);
+                }
+            }
+        }
+
+        private void TasksGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (this.TasksGrid.SelectedItem != null)
+            {
+                TaskViewModel taskViewModel = (TaskViewModel)this.TasksGrid.SelectedItem;
+                string regExString = string.Format(
+                    @"^%\s+{0}\s+.*$",
+                    taskViewModel.TaskCode);
+
+                Regex regex = new Regex(regExString, RegexOptions.Multiline);
+                string currentlySelectedText = this.LogTextBox.SelectedText;
+                Match match = null;
+
+                // If the current match is selected, then select the next one.
+                if (regex.Match(currentlySelectedText).Success)
+                {
+                    match = regex.Match(
+                        this.LogTextBox.Text,
+                        this.LogTextBox.SelectionStart + this.LogTextBox.SelectionLength);
+                }
+                
+                if (match == null || !match.Success)
+                {
+                    match = regex.Match(this.LogTextBox.Text);
+                }
+
+                if (match.Success)
+                {
+                    int line = this.LogTextBox.GetLineIndexFromCharacterIndex(match.Index);
+
+                    this.LogTextBox.Select(match.Index, this.LogTextBox.GetLineLength(line));
+
+                    this.LogTextBox.Focus();
+                    this.LogTextBox.ScrollToLine(line);
                 }
             }
         }

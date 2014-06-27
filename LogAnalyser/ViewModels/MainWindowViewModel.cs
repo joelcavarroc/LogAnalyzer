@@ -196,7 +196,8 @@ namespace LogAnalyzer.ViewModels
                         {
                             TaskCode = task.TaskCode, 
                             Duration = task.TotalDuration, 
-                            NormalizedDuration = task.NormalizedTotalDuration
+                            NormalizedDuration = task.NormalizedTotalDuration,
+                            Count = task.Count
                         });
             }
         }

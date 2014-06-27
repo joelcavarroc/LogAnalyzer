@@ -131,7 +131,7 @@ namespace LogAnalyzer.Tests
 
             Assert.AreEqual(2, taskAccumulators.Length);
 
-            Assert.AreEqual(4.0f, taskAccumulators[0].NormalizedTotalDuration);
+            Assert.AreEqual(0.5f, taskAccumulators[0].NormalizedTotalDuration);
         }
 
 
@@ -157,7 +157,7 @@ namespace LogAnalyzer.Tests
 
             Assert.AreEqual(1, taskAccumulators.Length);
 
-            Assert.AreEqual(16.0f, taskAccumulators[0].NormalizedTotalDuration);
+            Assert.AreEqual(2f, taskAccumulators[0].NormalizedTotalDuration);
         }
         #endregion
     }

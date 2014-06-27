@@ -229,7 +229,7 @@ namespace LogAnalyzer
             DateTime dateTime;
             if (DateTime.TryParseExact(
                 match.Groups["date"].Value, 
-                "yyyy-mm-dd", 
+                "yyyy-MM-dd", 
                 CultureInfo.InvariantCulture, 
                 DateTimeStyles.None, 
                 out dateTime))

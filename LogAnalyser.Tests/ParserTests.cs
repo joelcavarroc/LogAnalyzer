@@ -187,6 +187,23 @@ namespace LogAnalyzer.Tests
         /// The parse with task hold time.
         /// </summary>
         [TestMethod]
+        public void ParseWithTaskDateTest()
+        {
+            const string S = "% 2014-06-07\n" + "% TASKCODE 12:34 13:13";
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(S)))
+            using (StreamReader streamReader = new StreamReader(memoryStream))
+            using (Parser parser = new Parser(streamReader))
+            {
+                parser.Parse();
+
+                Assert.AreEqual(new DateTime(2014, 06, 07), parser.TaskEntries.First().Date);
+            }
+        }
+
+        /// <summary>
+        /// The parse with task hold time.
+        /// </summary>
+        [TestMethod]
         public void ParseWithTaskPositiveDeltaHoldTime()
         {
             const string S = "% 2014-06-07\n" + "% TASKCODE +0:05";
