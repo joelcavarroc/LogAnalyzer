@@ -63,6 +63,15 @@ namespace LogAnalyzer.ViewModels
 
         public void Execute(object parameter)
         {
+            if (!string.IsNullOrWhiteSpace(this.mainWindowViewModel.LastSavedText))
+            {
+                using (StreamWriter streamWriter = new StreamWriter(Path.ChangeExtension(this.mainWindowViewModel.Filename, Path.GetExtension(this.mainWindowViewModel.Filename) +  ".bak"), false, Encoding.UTF8))
+                {
+                    streamWriter.Write(this.mainWindowViewModel.LastSavedText);
+                }
+                
+            }
+
             using (StreamWriter streamWriter = new StreamWriter(this.mainWindowViewModel.Filename, false, Encoding.UTF8))
             {
                 streamWriter.Write(this.mainWindowViewModel.LogText);

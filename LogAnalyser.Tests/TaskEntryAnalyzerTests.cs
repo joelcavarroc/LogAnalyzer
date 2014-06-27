@@ -19,7 +19,7 @@ namespace LogAnalyzer.Tests
     ///     The task entry Analyzer tests.
     /// </summary>
     [TestClass]
-    public class TaskEntryAnalyzerTests
+    public sealed class TaskEntryAnalyzerTests
     {
         #region Public Methods and Operators
 
@@ -159,6 +159,7 @@ namespace LogAnalyzer.Tests
 
             Assert.AreEqual(2f, taskAccumulators[0].NormalizedTotalDuration);
         }
+
         #endregion
     }
 }

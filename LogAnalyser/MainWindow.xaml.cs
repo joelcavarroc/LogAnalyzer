@@ -94,7 +94,7 @@ namespace LogAnalyzer
             }
         }
 
-        private void WorkedDays_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void WorkedDaysMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (this.WorkedDays.SelectedItem != null)
             {
@@ -120,7 +120,7 @@ namespace LogAnalyzer
             }
         }
 
-        private void TasksGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void TasksGridMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (this.TasksGrid.SelectedItem != null)
             {
@@ -154,6 +154,23 @@ namespace LogAnalyzer
 
                     this.LogTextBox.Focus();
                     this.LogTextBox.ScrollToLine(line);
+                }
+            }
+        }
+
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (this.viewModel.IsModified)
+            {
+                var res = MessageBox.Show(this, "The file is modified, do you want to save it? ", "Closing...", MessageBoxButton.YesNoCancel);
+                switch (res)
+                {
+                    case MessageBoxResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                    case MessageBoxResult.Yes:
+                        this.viewModel.SaveCommand.Execute(null);
+                        break;
                 }
             }
         }

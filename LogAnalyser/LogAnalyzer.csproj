@@ -81,6 +81,7 @@
     <Compile Include="TaskEntry.cs" />
     <Compile Include="TaskEntryAnalyser.cs" />
     <Compile Include="TaskEntryByDelta.cs" />
+    <Compile Include="TotalHoursTimeSpanConverter.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\LoadCommand.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

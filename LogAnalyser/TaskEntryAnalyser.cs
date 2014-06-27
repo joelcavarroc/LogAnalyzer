@@ -54,7 +54,10 @@ namespace LogAnalyzer
         ///     The Analyze by day.
         /// </summary>
         /// <returns>
-        ///     The <see cref="List" />.
+        ///     The <see>
+        ///         <cref>List</cref>
+        ///     </see>
+        ///     .
         /// </returns>
         public List<WorkDay> AnalyzeByDay()
         {

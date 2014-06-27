@@ -5,8 +5,10 @@
         mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:vm="clr-namespace:LogAnalyzer.ViewModels"
+        xmlns:logAnalyzer="clr-namespace:LogAnalyzer"
         Height="730" Width="790.075"
          d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        Closing="WindowClosing"
         >
     <Window.Title>
         <MultiBinding StringFormat="LogAnalyser - {0} {1} ">
@@ -19,6 +21,7 @@
     </Window.InputBindings>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <logAnalyzer:TotalHoursTimeSpanConverter x:Key="TotalHoursTimeSpanConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -47,48 +50,20 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <DataGrid Name="WorkedDays" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding WorkDays}" AutoGenerateColumns="False" AlternatingRowBackground="CornflowerBlue" MouseDoubleClick="WorkedDays_MouseDoubleClick">
+            <DataGrid Name="WorkedDays" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding WorkDays}" AutoGenerateColumns="False" AlternatingRowBackground="CornflowerBlue" MouseDoubleClick="WorkedDaysMouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=d}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Worked Time" SortMemberPath="WorkedTime" >
-                        <DataGridTextColumn.CellStyle>
-                            <Style TargetType="DataGridCell">
-                                <Setter Property="ToolTip" Value="{Binding WorkedTime}" />
-                            </Style>
-                        </DataGridTextColumn.CellStyle>
-
-                        <DataGridTextColumn.Binding>
-                            <MultiBinding StringFormat="{} {0:00}:{1:00}">
-                                <Binding Path="WorkedTime.TotalHours"></Binding>
-                                <Binding Path="WorkedTime.Minutes"></Binding>
-                            </MultiBinding>
-                        </DataGridTextColumn.Binding>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Cumulated Time" CanUserSort="False">
-                        <DataGridTextColumn.Binding>
-                            <MultiBinding StringFormat="{} {0:00}:{1:00;00;00}">
-                                <Binding Path="TotalTime.TotalHours"></Binding>
-                                <Binding Path="TotalTime.Minutes"></Binding>
-                            </MultiBinding>
-                        </DataGridTextColumn.Binding>
-                    </DataGridTextColumn>
-
+                    <DataGridTextColumn Header="Worked Time" SortMemberPath="WorkedTime" Binding="{Binding WorkedTime, Converter={StaticResource TotalHoursTimeSpanConverter}}"/>
+                    <DataGridTextColumn Header="Cumulated Time" CanUserSort="False" Binding="{Binding TotalTime, Converter={StaticResource TotalHoursTimeSpanConverter}}"/>
                 </DataGrid.Columns>
             </DataGrid>
             <GridSplitter Width="5" ShowsPreview="True" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" ResizeDirection="Columns" />
-            <DataGrid Name="TasksGrid" Grid.Column="2" ItemsSource="{Binding Tasks}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" AlternatingRowBackground="CornflowerBlue" MouseDoubleClick="TasksGrid_MouseDoubleClick">
+            <DataGrid Name="TasksGrid" Grid.Column="2" ItemsSource="{Binding Tasks}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" AlternatingRowBackground="CornflowerBlue" MouseDoubleClick="TasksGridMouseDoubleClick">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Task" Binding="{Binding TaskCode}" IsReadOnly="True"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Duration" IsReadOnly="True" SortMemberPath="Duration">
-                        <DataGridTextColumn.Binding>
-                            <MultiBinding StringFormat="{} {0:00}:{1:00}">
-                                <Binding Path="Duration.TotalHours"></Binding>
-                                <Binding Path="Duration.Minutes"></Binding>
-                            </MultiBinding>
-                        </DataGridTextColumn.Binding>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Normalized Duration" Binding="{Binding NormalizedDuration, StringFormat=f2}" IsReadOnly="True"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Count" Binding="{Binding Count}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Task" Binding="{Binding TaskCode}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Duration" IsReadOnly="True" SortMemberPath="Duration" Binding="{Binding Duration, Converter={StaticResource TotalHoursTimeSpanConverter}}"/>
+                    <DataGridTextColumn Header="Normalized Duration" Binding="{Binding NormalizedDuration, StringFormat=f2}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
