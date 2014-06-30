@@ -38,7 +38,7 @@ namespace LogAnalyzer
         {
             this.InitializeComponent();
 
-            this.DataContext = this.viewModel = new MainWindowViewModel();
+            this.DataContext = this.viewModel = App.Container.GetExportedValue<MainWindowViewModel>();
         }
 
         #endregion
@@ -69,30 +69,6 @@ namespace LogAnalyzer
         }
 
         #endregion
-
-        /// <summary>
-        /// The on load click.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void OnLoadClick(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog { CheckFileExists = true, Multiselect = false };
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                this.viewModel.Filename = openFileDialog.FileName;
-                using (Stream stream = openFileDialog.OpenFile())
-                using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8))
-                {
-                    this.viewModel.LogText = this.viewModel.LastSavedText = streamReader.ReadToEnd();
-                }
-            }
-        }
 
         private void WorkedDaysMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

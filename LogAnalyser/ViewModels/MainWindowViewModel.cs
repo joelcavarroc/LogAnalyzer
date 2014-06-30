@@ -3,6 +3,7 @@
 //   JCSCopyright
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace LogAnalyzer.ViewModels
 {
     using System;
@@ -18,12 +19,12 @@ namespace LogAnalyzer.ViewModels
     /// </summary>
     public class MainWindowViewModel : BindableBase
     {
-        public MainWindowViewModel()
-        {
-            this.SaveCommand = new SaveCommand(this);
-        }
-
         #region Fields
+
+        /// <summary>
+        ///     The errors.
+        /// </summary>
+        private readonly ObservableCollection<ErrorViewModel> errors = new ObservableCollection<ErrorViewModel>();
 
         /// <summary>
         ///     The tasks.
@@ -35,22 +36,36 @@ namespace LogAnalyzer.ViewModels
         /// </summary>
         private readonly ObservableCollection<WorkDayViewModel> workDays = new ObservableCollection<WorkDayViewModel>();
 
-        /// <summary>
-        /// The errors.
-        /// </summary>
-        private readonly ObservableCollection<ErrorViewModel> errors = new ObservableCollection<ErrorViewModel>();
+        private string filename;
+
+        private string lastSavedText;
 
         /// <summary>
         ///     The log text.
         /// </summary>
         private string logText;
 
+        /// <summary>
+        ///     The selected error.
+        /// </summary>
+        private ErrorViewModel selectedError;
+
+        private SaveCommand saveCommand;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        public MainWindowViewModel()
+        {
+        }
+
         #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the errors.
+        ///     Gets the errors.
         /// </summary>
         public ObservableCollection<ErrorViewModel> Errors
         {
@@ -59,6 +74,47 @@ namespace LogAnalyzer.ViewModels
                 return this.errors;
             }
         }
+
+        public string Filename
+        {
+            get
+            {
+                return this.filename;
+            }
+            set
+            {
+                this.SetProperty(ref this.filename, value);
+            }
+        }
+
+        public bool IsModified
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.LastSavedText))
+                {
+                    return !string.IsNullOrEmpty(this.LogText);
+                }
+
+                return !this.LastSavedText.Equals(this.LogText, StringComparison.CurrentCulture);
+            }
+        }
+
+        public string LastSavedText
+        {
+            get
+            {
+                return this.lastSavedText;
+            }
+            set
+            {
+                this.SetProperty(ref this.lastSavedText, value);
+                this.OnPropertyChanged(() => this.IsModified);
+                this.OnPropertyChanged(() => this.ModificationIndicator);
+            }
+        }
+
+        public LoadCommand LoadCommand { get; set; }
 
         /// <summary>
         ///     Gets or sets the log text.
@@ -78,14 +134,44 @@ namespace LogAnalyzer.ViewModels
             }
         }
 
+        public string ModificationIndicator
+        {
+            get
+            {
+                if (this.IsModified)
+                {
+                    return "*";
+                }
+                return string.Empty;
+            }
+        }
+
+        public SaveCommand SaveCommand
+        {
+            get
+            {
+                return this.saveCommand;
+            }
+            set
+            {
+                this.saveCommand = value;
+            }
+        }
+
         /// <summary>
-        /// The selected error.
+        ///     The selected error.
         /// </summary>
-        private ErrorViewModel selectedError;
-
-        private string filename;
-
-        private string lastSavedText;
+        public ErrorViewModel SelectedError
+        {
+            get
+            {
+                return this.selectedError;
+            }
+            set
+            {
+                this.SetProperty(ref this.selectedError, value);
+            }
+        }
 
         /// <summary>
         ///     Gets the tasks.
@@ -98,18 +184,6 @@ namespace LogAnalyzer.ViewModels
             }
         }
 
-        public string Filename
-        {
-            get
-            {
-                return this.filename;
-            }
-            set
-            {
-                this.SetProperty(ref this.filename, value);
-            }
-        }
-
         /// <summary>
         ///     Gets the work days view models.
         /// </summary>
@@ -118,21 +192,6 @@ namespace LogAnalyzer.ViewModels
             get
             {
                 return this.workDays;
-            }
-        }
-
-        /// <summary>
-        /// The selected error.
-        /// </summary>
-        public ErrorViewModel SelectedError
-        {
-            get
-            {
-                return this.selectedError;
-            }
-            set
-            {
-                this.SetProperty(ref this.selectedError, value);
             }
         }
 
@@ -160,10 +219,10 @@ namespace LogAnalyzer.ViewModels
         }
 
         /// <summary>
-        /// The update errors.
+        ///     The update errors.
         /// </summary>
         /// <param name="parser">
-        /// The parser.
+        ///     The parser.
         /// </param>
         private void UpdateErrors(Parser parser)
         {
@@ -172,41 +231,41 @@ namespace LogAnalyzer.ViewModels
             {
                 this.errors.Add(
                     new ErrorViewModel
-                        {
-                            Line = error.LineNumber,
-                            LineText = error.LineText,
-                            ErrorText = error.ErrorType.ToString()
-                        });
+                    {
+                        Line = error.LineNumber,
+                        LineText = error.LineText,
+                        ErrorText = error.ErrorType.ToString()
+                    });
             }
         }
 
         /// <summary>
-        /// The update tasks.
+        ///     The update tasks.
         /// </summary>
         /// <param name="taskEntryAnalyzer">
-        /// The task entry Analyzer.
+        ///     The task entry Analyzer.
         /// </param>
         private void UpdateTasks(TaskEntryAnalyzer taskEntryAnalyzer)
         {
             this.Tasks.Clear();
-            foreach (var task in taskEntryAnalyzer.AnalyzeByTask().OrderBy(t => t.TaskCode))
+            foreach (TaskAccumulator task in taskEntryAnalyzer.AnalyzeByTask().OrderBy(t => t.TaskCode))
             {
                 this.Tasks.Add(
                     new TaskViewModel
-                        {
-                            TaskCode = task.TaskCode, 
-                            Duration = task.TotalDuration, 
-                            NormalizedDuration = task.NormalizedTotalDuration,
-                            Count = task.Count
-                        });
+                    {
+                        TaskCode = task.TaskCode,
+                        Duration = task.TotalDuration,
+                        NormalizedDuration = task.NormalizedTotalDuration,
+                        Count = task.Count
+                    });
             }
         }
 
         /// <summary>
-        /// The update work days.
+        ///     The update work days.
         /// </summary>
         /// <param name="taskEntryAnalyzer">
-        /// The task entry Analyzer.
+        ///     The task entry Analyzer.
         /// </param>
         private void UpdateWorkDays(TaskEntryAnalyzer taskEntryAnalyzer)
         {
@@ -220,54 +279,13 @@ namespace LogAnalyzer.ViewModels
 
                 this.WorkDays.Add(
                     new WorkDayViewModel
-                        {
-                            Date = workDay.Date, 
-                            WorkedTime = workDay.TotalDuration, 
-                            TotalTime = totalTimeSpan - normalTime
-                        });
+                    {
+                        Date = workDay.Date,
+                        WorkedTime = workDay.TotalDuration,
+                        TotalTime = totalTimeSpan - normalTime
+                    });
             }
         }
-
-        public string LastSavedText
-        {
-            get
-            {
-                return this.lastSavedText;
-            }
-            set
-            {
-                this.SetProperty(ref this.lastSavedText, value);
-                this.OnPropertyChanged(() => this.IsModified);
-                this.OnPropertyChanged(() => this.ModificationIndicator);
-            }
-        }
-
-        public bool IsModified
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(this.LastSavedText))
-                {
-                    return !string.IsNullOrEmpty(this.LogText);
-                }
-
-                return !this.LastSavedText.Equals(this.LogText, StringComparison.CurrentCulture);
-            }
-        }
-
-        public string ModificationIndicator
-        {
-            get
-            {
-                if (this.IsModified)
-                {
-                    return "*";
-                }
-                return string.Empty;
-            }
-        }
-
-        public SaveCommand SaveCommand { get; private set; }
 
         #endregion
     }

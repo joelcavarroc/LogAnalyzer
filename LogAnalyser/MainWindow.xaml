@@ -18,6 +18,7 @@
         </MultiBinding>
     </Window.Title>
     <Window.InputBindings>
+        <KeyBinding Command="{Binding LoadCommand}" Modifiers="Control" Key="O"></KeyBinding>
         <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S"></KeyBinding>
     </Window.InputBindings>
     <Window.Resources>
@@ -34,7 +35,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" IsMainMenu="True">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open..." Command="{Binding SaveCommand}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="_Open..." Command="{Binding LoadCommand}" InputGestureText="Ctrl+O"/>
                 <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
                 <Separator/>
                 <MenuItem Header="E_xit" Command="Close" InputGestureText="Alt+F4"/>
@@ -42,7 +43,7 @@
         </Menu>
         <ToolBarTray Grid.Row="1">
             <ToolBar Band="1" BandIndex="1">
-                <Button Name="LoadButton" Click="OnLoadClick">Open...</Button>
+                <Button Name="LoadButton" Command="{Binding LoadCommand}">Open...</Button>
                 <Button Name="SaveButton" Command="{Binding SaveCommand}" >Save</Button>
                 <Button>Analyze</Button>
             </ToolBar>

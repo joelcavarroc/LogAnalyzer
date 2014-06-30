@@ -7,44 +7,59 @@
 namespace LogAnalyzer.ViewModels
 {
     using System;
-    using System.Security.Cryptography.X509Certificates;
+    using System.IO;
+    using System.Text;
     using System.Windows.Input;
 
     /// <summary>
-    /// The load command.
+    ///     The load command.
     /// </summary>
     public class LoadCommand : ICommand
     {
+        #region Fields
+
         private readonly IOpenFileDialogService openFileDialogService;
 
-        //public LoadCommand(IOpenFileDialogService openFileDialogService, IStorageManager storageManager)
-        //{
-        //    if (openFileDialogService == null)
-        //    {
-        //        throw new ArgumentNullException("openFileDialogService");
-        //    }
-        //    this.openFileDialogService = openFileDialogService;
-        //}
+        #endregion
+
+        #region Constructors and Destructors
+
+        public LoadCommand(IOpenFileDialogService openFileDialogService)
+        {
+            if (openFileDialogService == null)
+            {
+                throw new ArgumentNullException("openFileDialogService");
+            }
+            this.openFileDialogService = openFileDialogService;
+        }
+
+        #endregion
 
         #region Public Events
 
         /// <summary>
-        /// The can execute changed.
+        ///     The can execute changed.
         /// </summary>
         public event EventHandler CanExecuteChanged;
+
+        #endregion
+
+        #region Public Properties
+
+        public MainWindowViewModel MainWindowViewModel { get; private set; }
 
         #endregion
 
         #region Public Methods and Operators
 
         /// <summary>
-        /// The can execute.
+        ///     The can execute.
         /// </summary>
         /// <param name="parameter">
-        /// The parameter.
+        ///     The parameter.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        ///     The <see cref="bool" />.
         /// </returns>
         public bool CanExecute(object parameter)
         {
@@ -52,23 +67,28 @@ namespace LogAnalyzer.ViewModels
         }
 
         /// <summary>
-        /// The execute.
+        ///     The execute.
         /// </summary>
         /// <param name="parameter">
-        /// The parameter.
+        ///     The parameter.
         /// </param>
         public void Execute(object parameter)
         {
-            
+            this.openFileDialogService.CheckFileExists = true;
+            this.openFileDialogService.Multiselect = false;
+
+            if (this.openFileDialogService.ShowDialog() == true)
+            {
+                this.MainWindowViewModel.Filename = this.openFileDialogService.FileName;
+
+                using (Stream stream = this.openFileDialogService.OpenFile())
+                using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    this.MainWindowViewModel.LogText = this.MainWindowViewModel.LastSavedText = streamReader.ReadToEnd();
+                }
+            }
         }
 
         #endregion
-    }
-
-    public interface IOpenFileDialogService
-    {
-        bool ShowDialog();
-        string Filename { get; set; }
-        bool CheckFileExist { get; set; }
     }
 }

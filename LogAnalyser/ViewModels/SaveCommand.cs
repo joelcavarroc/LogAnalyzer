@@ -22,7 +22,7 @@ namespace LogAnalyzer.ViewModels
         /// <summary>
         /// The main window view model.
         /// </summary>
-        private readonly MainWindowViewModel mainWindowViewModel;
+        private MainWindowViewModel mainWindowViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SaveCommand"/> class.
@@ -30,10 +30,20 @@ namespace LogAnalyzer.ViewModels
         /// <param name="mainWindowViewModel">
         /// The main window view model.
         /// </param>
-        public SaveCommand(MainWindowViewModel mainWindowViewModel)
+        public SaveCommand()
         {
-            this.mainWindowViewModel = mainWindowViewModel;
-            this.mainWindowViewModel.PropertyChanged += (sender, args) =>
+        }
+
+        public MainWindowViewModel MainWindowViewModel
+        {
+            get
+            {
+                return this.mainWindowViewModel;
+            }
+            set
+            {
+                this.mainWindowViewModel = value;
+                this.mainWindowViewModel.PropertyChanged += (sender, args) =>
                 {
                     if (args.PropertyName == "IsModified")
                     {
@@ -43,6 +53,7 @@ namespace LogAnalyzer.ViewModels
                         }
                     }
                 };
+            }
         }
 
         /// <summary>
