@@ -7,6 +7,7 @@
 namespace LogAnalyzer.ViewModels
 {
     using System;
+    using System.Security.Cryptography.X509Certificates;
     using System.Windows.Input;
 
     /// <summary>
@@ -14,10 +15,16 @@ namespace LogAnalyzer.ViewModels
     /// </summary>
     public class LoadCommand : ICommand
     {
-        public LoadCommand()
-        {
-            
-        }
+        private readonly IOpenFileDialogService openFileDialogService;
+
+        //public LoadCommand(IOpenFileDialogService openFileDialogService, IStorageManager storageManager)
+        //{
+        //    if (openFileDialogService == null)
+        //    {
+        //        throw new ArgumentNullException("openFileDialogService");
+        //    }
+        //    this.openFileDialogService = openFileDialogService;
+        //}
 
         #region Public Events
 
@@ -56,5 +63,12 @@ namespace LogAnalyzer.ViewModels
         }
 
         #endregion
+    }
+
+    public interface IOpenFileDialogService
+    {
+        bool ShowDialog();
+        string Filename { get; set; }
+        bool CheckFileExist { get; set; }
     }
 }

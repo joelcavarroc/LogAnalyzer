@@ -9,6 +9,7 @@
         Height="730" Width="790.075"
          d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         Closing="WindowClosing"
+        Icon=".\Resources\Oxygen-Icons.org-Oxygen-Apps-preferences-system-time.ico"
         >
     <Window.Title>
         <MultiBinding StringFormat="LogAnalyser - {0} {1} ">
@@ -20,7 +21,6 @@
         <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S"></KeyBinding>
     </Window.InputBindings>
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <logAnalyzer:TotalHoursTimeSpanConverter x:Key="TotalHoursTimeSpanConverter"/>
     </Window.Resources>
     <Grid>
@@ -34,12 +34,15 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" IsMainMenu="True">
             <MenuItem Header="_File">
-                <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"></MenuItem>
+                <MenuItem Header="_Open..." Command="{Binding SaveCommand}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
+                <Separator/>
+                <MenuItem Header="E_xit" Command="Close" InputGestureText="Alt+F4"/>
             </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1">
             <ToolBar Band="1" BandIndex="1">
-                <Button Name="LoadButton" Click="OnLoadClick">Load...</Button>
+                <Button Name="LoadButton" Click="OnLoadClick">Open...</Button>
                 <Button Name="SaveButton" Command="{Binding SaveCommand}" >Save</Button>
                 <Button>Analyze</Button>
             </ToolBar>
