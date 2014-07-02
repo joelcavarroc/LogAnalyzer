@@ -49,6 +49,7 @@ namespace LogAnalyzer
                 .ImportProperties<MainWindowViewModel>(info => info.Name == "MainWindowViewModel");
             
             builder.ForType<OpenFileDialogService>().Export<IOpenFileDialogService>();
+            builder.ForType<StorageManager>().Export<IStorageManager>();
 
             AssemblyCatalog cat = new AssemblyCatalog(typeof(App).Assembly, builder);
             container = new CompositionContainer(cat);

@@ -7,6 +7,7 @@
 namespace LogAnalyzer.ViewModels
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Text;
     using System.Windows.Input;
@@ -26,10 +27,8 @@ namespace LogAnalyzer.ViewModels
 
         public LoadCommand(IOpenFileDialogService openFileDialogService)
         {
-            if (openFileDialogService == null)
-            {
-                throw new ArgumentNullException("openFileDialogService");
-            }
+            Contract.Requires(openFileDialogService != null);
+
             this.openFileDialogService = openFileDialogService;
         }
 
@@ -46,7 +45,7 @@ namespace LogAnalyzer.ViewModels
 
         #region Public Properties
 
-        public MainWindowViewModel MainWindowViewModel { get; private set; }
+        public MainWindowViewModel MainWindowViewModel { get; set; }
 
         #endregion
 

@@ -10,15 +10,21 @@
 namespace LogAnalyzer.ViewModels
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Text;
     using System.Windows.Input;
 
+    using LogAnalyzer.Annotations;
+
     /// <summary>
     /// The save command.
     /// </summary>
+    [UsedImplicitly]
     public class SaveCommand : ICommand
     {
+        private readonly IStorageManager storageManager;
+
         /// <summary>
         /// The main window view model.
         /// </summary>
@@ -30,8 +36,10 @@ namespace LogAnalyzer.ViewModels
         /// <param name="mainWindowViewModel">
         /// The main window view model.
         /// </param>
-        public SaveCommand()
+        public SaveCommand(IStorageManager storageManager)
         {
+            Contract.Requires(storageManager != null);
+            this.storageManager = storageManager;
         }
 
         public MainWindowViewModel MainWindowViewModel
@@ -74,18 +82,23 @@ namespace LogAnalyzer.ViewModels
 
         public void Execute(object parameter)
         {
+            if (!this.CanExecute(null))
+            {
+                return;
+            }
+
             if (!string.IsNullOrWhiteSpace(this.mainWindowViewModel.LastSavedText))
             {
-                using (StreamWriter streamWriter = new StreamWriter(Path.ChangeExtension(this.mainWindowViewModel.Filename, Path.GetExtension(this.mainWindowViewModel.Filename) +  ".bak"), false, Encoding.UTF8))
+                using (TextWriter textWriter = storageManager.GetStreamWriter(Path.ChangeExtension(this.mainWindowViewModel.Filename, Path.GetExtension(this.mainWindowViewModel.Filename) + ".bak"), false))
                 {
-                    streamWriter.Write(this.mainWindowViewModel.LastSavedText);
+                    textWriter.Write(this.mainWindowViewModel.LastSavedText);
                 }
                 
             }
 
-            using (StreamWriter streamWriter = new StreamWriter(this.mainWindowViewModel.Filename, false, Encoding.UTF8))
+            using (TextWriter textWriter = storageManager.GetStreamWriter(this.mainWindowViewModel.Filename, false))
             {
-                streamWriter.Write(this.mainWindowViewModel.LogText);
+                textWriter.Write(this.mainWindowViewModel.LogText);
 
                 this.mainWindowViewModel.LastSavedText = this.mainWindowViewModel.LogText;
             }

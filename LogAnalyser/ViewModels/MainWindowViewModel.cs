@@ -52,6 +52,8 @@ namespace LogAnalyzer.ViewModels
 
         private SaveCommand saveCommand;
 
+        private double normalizedTotalDuration;
+
         #endregion
 
         #region Constructors and Destructors
@@ -239,6 +241,18 @@ namespace LogAnalyzer.ViewModels
             }
         }
 
+        public double NormalizedTotalDuration
+        {
+            get
+            {
+                return this.normalizedTotalDuration;
+            }
+            internal set
+            {
+                this.SetProperty(ref this.normalizedTotalDuration, value);
+            }
+        }
+
         /// <summary>
         ///     The update tasks.
         /// </summary>
@@ -248,6 +262,8 @@ namespace LogAnalyzer.ViewModels
         private void UpdateTasks(TaskEntryAnalyzer taskEntryAnalyzer)
         {
             this.Tasks.Clear();
+
+            double totalDuration = 0;
             foreach (TaskAccumulator task in taskEntryAnalyzer.AnalyzeByTask().OrderBy(t => t.TaskCode))
             {
                 this.Tasks.Add(
@@ -258,7 +274,11 @@ namespace LogAnalyzer.ViewModels
                         NormalizedDuration = task.NormalizedTotalDuration,
                         Count = task.Count
                     });
+
+                totalDuration += task.NormalizedTotalDuration;
             }
+
+            this.NormalizedTotalDuration = totalDuration;
         }
 
         /// <summary>

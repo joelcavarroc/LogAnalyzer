@@ -101,6 +101,8 @@
     <Compile Include="IStorageManager.cs" />
     <Compile Include="OpenFileDialogService.cs" />
     <Compile Include="ParserErrorInfo.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="StorageManager.cs" />
     <Compile Include="TaskAccumulator.cs" />
     <Compile Include="TaskEntry.cs" />
     <Compile Include="TaskEntryAnalyser.cs" />

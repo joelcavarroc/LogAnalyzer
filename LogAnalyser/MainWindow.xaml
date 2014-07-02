@@ -12,7 +12,7 @@
         Icon=".\Resources\Oxygen-Icons.org-Oxygen-Apps-preferences-system-time.ico"
         >
     <Window.Title>
-        <MultiBinding StringFormat="LogAnalyser - {0} {1} ">
+        <MultiBinding StringFormat="Log Analyzer - {0} {1} ">
             <Binding Path="Filename"></Binding>
             <Binding Path="ModificationIndicator"></Binding>
         </MultiBinding>
@@ -21,6 +21,12 @@
         <KeyBinding Command="{Binding LoadCommand}" Modifiers="Control" Key="O"></KeyBinding>
         <KeyBinding Command="{Binding SaveCommand}" Modifiers="Control" Key="S"></KeyBinding>
     </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close"
+                    Executed="CloseCommandHandler"
+                    CanExecute="CanExecuteCloseHandler"
+                    />
+    </Window.CommandBindings>
     <Window.Resources>
         <logAnalyzer:TotalHoursTimeSpanConverter x:Key="TotalHoursTimeSpanConverter"/>
     </Window.Resources>
@@ -38,7 +44,7 @@
                 <MenuItem Header="_Open..." Command="{Binding LoadCommand}" InputGestureText="Ctrl+O"/>
                 <MenuItem Header="_Save" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
                 <Separator/>
-                <MenuItem Header="E_xit" Command="Close" InputGestureText="Alt+F4"/>
+                <MenuItem Header="E_xit" Command="ApplicationCommands.Close"  InputGestureText="Alt+F4"/>
             </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1">
@@ -66,7 +72,11 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Task" Binding="{Binding TaskCode}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Duration" IsReadOnly="True" SortMemberPath="Duration" Binding="{Binding Duration, Converter={StaticResource TotalHoursTimeSpanConverter}}"/>
-                    <DataGridTextColumn Header="Normalized Duration" Binding="{Binding NormalizedDuration, StringFormat=f2}" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding NormalizedDuration, StringFormat=f2}" IsReadOnly="True">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="{Binding DataContext.NormalizedTotalDuration, StringFormat='Normalized Duration ({0:f2})', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Count" Binding="{Binding Count}"/>
                 </DataGrid.Columns>
             </DataGrid>
