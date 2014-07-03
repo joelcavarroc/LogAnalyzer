@@ -13,7 +13,7 @@
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ( (targetType != typeof(string)) || (value == null) || !(value is TimeSpan))
+            if ( (targetType != typeof(string)) || !(value is TimeSpan))
             {
                 return value;
             }

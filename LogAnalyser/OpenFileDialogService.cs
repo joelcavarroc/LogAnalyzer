@@ -2,13 +2,16 @@
 {
     using System.IO;
 
+    using LogAnalyzer.Annotations;
+
     using Microsoft.Win32;
 
+    [UsedImplicitly]
     internal class OpenFileDialogService : IOpenFileDialogService
     {
         #region Fields
 
-        private readonly OpenFileDialog openFileDialog = new OpenFileDialog();
+        private readonly OpenFileDialog openFileDialog = new OpenFileDialog { RestoreDirectory = true, };
 
         #endregion
 
