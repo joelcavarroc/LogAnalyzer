@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        private readonly OpenFileDialog openFileDialog = new OpenFileDialog { RestoreDirectory = true, };
+        private readonly OpenFileDialog openFileDialog = new OpenFileDialog { RestoreDirectory = true };
 
         #endregion
 
@@ -65,6 +65,18 @@
         public bool? ShowDialog()
         {
             return this.openFileDialog.ShowDialog();
+        }
+
+        public string Filter
+        {
+            get
+            {
+                return this.openFileDialog.Filter;
+            }
+            set
+            {
+                this.openFileDialog.Filter = value;
+            }
         }
 
         #endregion

@@ -10,5 +10,7 @@
         bool Multiselect { get; set; }
 
         System.IO.Stream OpenFile();
+
+        string Filter { get; set; }
     }
 }

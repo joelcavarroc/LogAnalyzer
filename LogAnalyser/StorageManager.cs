@@ -10,7 +10,7 @@
     {
         public TextWriter GetStreamWriter(string path, bool append)
         {
-            return new StreamWriter(path, true, Encoding.UTF8);
+            return new StreamWriter(path, append, Encoding.UTF8);
         }
     }
 }

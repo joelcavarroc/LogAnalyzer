@@ -75,6 +75,7 @@ namespace LogAnalyzer.ViewModels
         {
             this.openFileDialogService.CheckFileExists = true;
             this.openFileDialogService.Multiselect = false;
+            this.openFileDialogService.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
             if (this.openFileDialogService.ShowDialog() == true)
             {
