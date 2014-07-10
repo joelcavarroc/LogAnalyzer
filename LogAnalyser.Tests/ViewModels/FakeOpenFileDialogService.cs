@@ -34,6 +34,8 @@
             return new MemoryStream(UTF8Encoding.UTF8.GetBytes(this.FileContent));
         }
 
+        public string Filter { get; set; }
+
         public string FileContent { get; set; }
 
         public bool? ShowDialog()

@@ -56,7 +56,7 @@ namespace LogAnalyzer
         /// <summary>
         ///     The task entries.
         /// </summary>
-        private readonly List<TaskEntry> taskEntries = new List<TaskEntry>();
+        private readonly Dictionary<TaskEntry, int> taskEntries = new Dictionary<TaskEntry, int>();
 
         /// <summary>
         ///     The current date.
@@ -176,7 +176,7 @@ namespace LogAnalyzer
         {
             get
             {
-                return new ReadOnlyCollection<TaskEntry>(this.taskEntries);
+                return this.taskEntries.Keys;
             }
         }
 
@@ -193,6 +193,11 @@ namespace LogAnalyzer
             {
                 this.streamReader.Dispose();
             }
+        }
+
+        public int GetTaskEntryLine(TaskEntry taskEntry)
+        {
+            return this.taskEntries[taskEntry];
         }
 
         /// <summary>
@@ -275,7 +280,7 @@ namespace LogAnalyzer
 
             if (TimeSpan.TryParse(delta, CultureInfo.InvariantCulture, out timespan))
             {
-                this.taskEntries.Add(new TaskEntryByDelta(this.currentDate.Value, task, timespan));
+                this.taskEntries.Add(new TaskEntryByDelta(this.currentDate.Value, task, timespan), lineNumber);
             }
             else
             {
@@ -315,7 +320,7 @@ namespace LogAnalyzer
                 startTime, 
                 endTime);
 
-            this.taskEntries.Add(taskStartEndEntry);
+            this.taskEntries.Add(taskStartEndEntry, lineNumber);
 
             this.lastTaskEntry = taskStartEndEntry;
         }
@@ -324,15 +329,12 @@ namespace LogAnalyzer
         /// Parse a line.
         /// </summary>
         /// <param name="line">
-        /// The line to parse.
+        ///     The line to parse.
         /// </param>
         /// <param name="lineNumber">
-        /// The line Number.
+        ///     The line Number.
         /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        private bool ParseLine(string line, int lineNumber)
+        private void ParseLine(string line, int lineNumber)
         {
             if (line.StartsWith(StartOfLine))
             {
@@ -354,15 +356,13 @@ namespace LogAnalyzer
                     Trace.WriteLine(string.Format("Invalid line {0}: {1}", lineNumber, line));
                 }
 
-                return success;
+                return;
             }
 
             if (this.lastTaskEntry != null)
             {
                 this.lastTaskEntry.Comments.Add(line);
             }
-
-            return true;
         }
 
         #endregion

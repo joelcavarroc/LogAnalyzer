@@ -115,5 +115,42 @@ namespace LogAnalyzer
         }
 
         #endregion
+
+        public List<AnalyzerError> Validate()
+        {
+            List<AnalyzerError> errors = new List<AnalyzerError>();
+
+            TaskStartEndEntry[] taskStartEndEntries =
+                this.taskEntries.OfType<TaskStartEndEntry>().OrderBy(taskEntry => taskEntry.Date).ThenBy(taskEntry => taskEntry.StartTime).ToArray();
+
+            TaskStartEndEntry previousTask = null;
+            int currentIndex = 0;
+
+            while(currentIndex < taskStartEndEntries.Length)
+            {
+                TaskStartEndEntry currentTask = taskStartEndEntries[currentIndex];
+                if (currentTask.StartTime >= currentTask.EndTime)
+                {
+                    errors.Add(new AnalyzerError(AnalyzerErrorType.StartAfterEndError, currentTask));
+                }
+                else
+                {
+                    if (previousTask != null)
+                    {
+
+                        if (currentTask.Date == previousTask.Date && previousTask.EndTime > currentTask.StartTime)
+                        {
+                            errors.Add(new AnalyzerError(AnalyzerErrorType.OverlappingTasks, previousTask, currentTask));
+                        }
+                    }
+
+                    previousTask = currentTask;
+                }
+                ++currentIndex;
+            }
+             return errors;
+
+        }
+
     }
 }

@@ -7,6 +7,7 @@
 namespace LogAnalyzer.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
@@ -53,14 +54,6 @@ namespace LogAnalyzer.ViewModels
         private SaveCommand saveCommand;
 
         private double normalizedTotalDuration;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public MainWindowViewModel()
-        {
-        }
 
         #endregion
 
@@ -216,7 +209,8 @@ namespace LogAnalyzer.ViewModels
                 this.UpdateWorkDays(taskEntryAnalyzer);
                 this.UpdateTasks(taskEntryAnalyzer);
 
-                this.UpdateErrors(parser);
+
+                this.UpdateErrors(parser, taskEntryAnalyzer);
             }
         }
 
@@ -226,7 +220,8 @@ namespace LogAnalyzer.ViewModels
         /// <param name="parser">
         ///     The parser.
         /// </param>
-        private void UpdateErrors(Parser parser)
+        /// <param name="analyzer"></param>
+        private void UpdateErrors(Parser parser, TaskEntryAnalyzer analyzer)
         {
             this.errors.Clear();
             foreach (ParserErrorInfo error in parser.Errors)
@@ -238,6 +233,29 @@ namespace LogAnalyzer.ViewModels
                         LineText = error.LineText,
                         ErrorText = error.ErrorType.ToString()
                     });
+            }
+
+            List<AnalyzerError> analyzerErrors = analyzer.Validate();
+
+            if (analyzerErrors.Count > 0)
+            {
+                string[] lines = this.LogText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                foreach (AnalyzerError error in analyzerErrors)
+                {
+                    TaskEntry[] taskEntriesInError = error.TaskEntries;
+                    int lineInError = parser.GetTaskEntryLine(taskEntriesInError[taskEntriesInError.GetUpperBound(0)]);
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    foreach (TaskEntry taskEntry in taskEntriesInError)
+                    {
+                        int lineNumber = parser.GetTaskEntryLine(taskEntry);
+                        string line = lines[lineNumber];
+                        stringBuilder.AppendFormat("{0} ({1})", line, lineNumber);
+                    }
+
+                    this.errors.Add(
+                        new ErrorViewModel { ErrorText = error.ErrorType.ToString(), Line = lineInError, LineText = "" });
+                }
             }
         }
 

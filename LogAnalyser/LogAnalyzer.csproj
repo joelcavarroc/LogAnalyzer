@@ -96,6 +96,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnalyzerErrorType.cs" />
+    <Compile Include="AnalyzerError.cs" />
     <Compile Include="ErrorType.cs" />
     <Compile Include="IOpenFileDialogService.cs" />
     <Compile Include="IStorageManager.cs" />

@@ -64,7 +64,29 @@ namespace LogAnalyzer
         {
             get
             {
-                return this.endTime - this.startTime;
+                return this.EndTime - this.StartTime;
+            }
+        }
+
+        /// <summary>
+        ///     The end time.
+        /// </summary>
+        public DateTime EndTime
+        {
+            get
+            {
+                return this.endTime;
+            }
+        }
+
+        /// <summary>
+        ///     The start time.
+        /// </summary>
+        public DateTime StartTime
+        {
+            get
+            {
+                return this.startTime;
             }
         }
 
