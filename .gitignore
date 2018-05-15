@@ -154,3 +154,11 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/.vs/LogAnalyzer/v15/Server/sqlite3
+/LogAnalyzer.sln.ide
+/Setup3
+/LogAnalyzer.sln.DotSettings
+/LOCK.txt
+/error.txt
+/Download errors.txt
+/db.lock.txt

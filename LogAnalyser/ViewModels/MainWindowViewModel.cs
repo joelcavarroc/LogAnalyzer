@@ -9,6 +9,7 @@ namespace LogAnalyzer.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Data.Odbc;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -54,6 +55,8 @@ namespace LogAnalyzer.ViewModels
         private SaveCommand saveCommand;
 
         private double normalizedTotalDuration;
+
+        private TaskViewModel selectedTask;
 
         #endregion
 
@@ -271,6 +274,19 @@ namespace LogAnalyzer.ViewModels
             }
         }
 
+        public TaskViewModel SelectedTask
+        {
+            get
+            {
+                return this.selectedTask;
+            }
+            set
+            {
+                this.SetProperty(ref this.selectedTask, value);
+            }
+
+        }
+
         /// <summary>
         ///     The update tasks.
         /// </summary>
@@ -279,21 +295,33 @@ namespace LogAnalyzer.ViewModels
         /// </param>
         private void UpdateTasks(TaskEntryAnalyzer taskEntryAnalyzer)
         {
-            this.Tasks.Clear();
+            Dictionary<string, TaskViewModel> taskEntries = this.Tasks.ToDictionary(t => t.TaskCode);
 
             double totalDuration = 0;
             foreach (TaskAccumulator task in taskEntryAnalyzer.AnalyzeByTask().OrderBy(t => t.TaskCode))
             {
-                this.Tasks.Add(
-                    new TaskViewModel
-                    {
-                        TaskCode = task.TaskCode,
-                        Duration = task.TotalDuration,
-                        NormalizedDuration = task.NormalizedTotalDuration,
-                        Count = task.Count
-                    });
+                TaskViewModel taskViewModel;
+
+                if (!taskEntries.TryGetValue(task.TaskCode, out taskViewModel))
+                {
+                    taskViewModel = new TaskViewModel();
+                    this.Tasks.Add(taskViewModel);
+                }
+                else
+                {
+                    taskEntries.Remove(task.TaskCode);
+                }
+
+                taskViewModel.TaskCode = task.TaskCode;
+                taskViewModel.Duration = task.TotalDuration;
+                taskViewModel.NormalizedDuration = task.NormalizedTotalDuration;
+                taskViewModel.Count = task.Count;
 
                 totalDuration += task.NormalizedTotalDuration;
+            }
+            foreach (TaskViewModel task in taskEntries.Values)
+            {
+                this.Tasks.Remove(task);
             }
 
             this.NormalizedTotalDuration = totalDuration;

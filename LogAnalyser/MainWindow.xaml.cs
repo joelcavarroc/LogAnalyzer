@@ -83,7 +83,7 @@ namespace LogAnalyzer
                 TaskViewModel taskViewModel = (TaskViewModel)this.TasksGrid.SelectedItem;
                 string regExString = string.Format(@"^%\s+{0}\s+.*$", taskViewModel.TaskCode);
 
-                Regex regex = new Regex(regExString, RegexOptions.Multiline);
+                Regex regex = new Regex(regExString, RegexOptions.Multiline|RegexOptions.IgnoreCase);
                 string currentlySelectedText = this.LogTextBox.SelectedText;
                 Match match = null;
 
@@ -144,7 +144,7 @@ namespace LogAnalyzer
                     workDayViewModel.Date.Month,
                     workDayViewModel.Date.Day);
 
-                Regex regex = new Regex(regExString, RegexOptions.Multiline);
+                Regex regex = new Regex(regExString, RegexOptions.Multiline|RegexOptions.IgnoreCase);
 
                 Match match = regex.Match(this.LogTextBox.Text);
                 if (match.Success)

@@ -20,14 +20,14 @@ namespace LogAnalyzer
     /// <summary>
     ///     The parser.
     /// </summary>
-    public class Parser : IDisposable
+    public sealed class Parser : IDisposable
     {
         #region Constants
 
         /// <summary>
         ///     The start of line.
         /// </summary>
-        private const string StartOfLine = "%";
+        private readonly string[] StartOfLine = new [] { "%", "#" };
 
         #endregion
 
@@ -95,7 +95,7 @@ namespace LogAnalyzer
         public Parser(StreamReader streamReader)
             : this()
         {
-            Contract.Requires(!ReferenceEquals(null, streamReader));
+            Contract.Requires(!(streamReader is null));
 
             this.streamReader = streamReader;
         }
@@ -110,14 +110,21 @@ namespace LogAnalyzer
                                    new Tuple<Regex, Action<Match, int, string>>(
                                        DateStartRegEx, 
                                        this.HandleDateStartRegularExpression), 
-                                   new Tuple<Regex, Action<Match, int, string>>(TaskRegex, this.HandleTaskRegex), 
+                                   new Tuple<Regex, Action<Match, int, string>>(TaskRegex, this.HandleTaskRegex),
                                    new Tuple<Regex, Action<Match, int, string>>(
                                        TaskDeltaRegex, 
-                                       this.HandleTaskDeltaRegex)
+                                       this.HandleTaskDeltaRegex
+                                       ),
+                                   new Tuple<Regex, Action<Match, int, string>>(TagRegEx, this.HandleTagRegEx)
                                };
 
             this.errors = new List<ParserErrorInfo>();
             this.readOnlyErrors = new ReadOnlyCollection<ParserErrorInfo>(this.errors);
+        }
+
+        private void HandleTagRegEx(Match arg1, int arg2, string arg3)
+        {
+            
         }
 
         #endregion
@@ -157,6 +164,18 @@ namespace LogAnalyzer
                     @"^%\s+(?<task>\p{L}\S+)\s+(?<startTime>\d{1,2}:\d{2})\s+(?<endTime>\d{1,2}:\d{2})\s*$");
             }
         }
+
+        /// <summary>
+        ///     Gets the task delta regex.
+        /// </summary>
+        public static Regex TagRegEx
+        {
+            get
+            {
+                return new Regex(@"^#(?<task>\p{L}\S+):(?<comment>.*)$");
+            }
+        }
+
 
         /// <summary>
         ///     Gets the parsing errors.
@@ -336,27 +355,30 @@ namespace LogAnalyzer
         /// </param>
         private void ParseLine(string line, int lineNumber)
         {
-            if (line.StartsWith(StartOfLine))
+            foreach (string startChar in StartOfLine)
             {
-                bool success = false;
-                foreach (var t in this.regExes)
+                if (line.StartsWith(startChar))
                 {
-                    Match match = t.Item1.Match(line);
-                    if (match.Success)
+                    bool success = false;
+                    foreach (var t in this.regExes)
                     {
-                        t.Item2.Invoke(match, lineNumber, line);
-                        success = true;
-                        break;
+                        Match match = t.Item1.Match(line);
+                        if (match.Success)
+                        {
+                            t.Item2.Invoke(match, lineNumber, line);
+                            success = true;
+                            break;
+                        }
                     }
-                }
 
-                if (!success)
-                {
-                    this.errors.Add(new ParserErrorInfo(lineNumber, line, ErrorType.InvalidLine));
-                    Trace.WriteLine(string.Format("Invalid line {0}: {1}", lineNumber, line));
-                }
+                    if (!success)
+                    {
+                        this.errors.Add(new ParserErrorInfo(lineNumber, line, ErrorType.InvalidLine));
+                        Trace.WriteLine(string.Format("Invalid line {0}: {1}", lineNumber, line));
+                    }
 
-                return;
+                    return;
+                }
             }
 
             if (this.lastTaskEntry != null)
