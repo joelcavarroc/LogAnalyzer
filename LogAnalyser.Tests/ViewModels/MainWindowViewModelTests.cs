@@ -1,10 +1,8 @@
 ﻿using LogAnalyzer.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LogAnalyzer.ViewModels.Tests
+namespace LogAnalyzer.Tests.ViewModels
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     [TestClass()]
     public class MainWindowViewModelTests
     {

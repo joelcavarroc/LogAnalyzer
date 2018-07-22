@@ -6,6 +6,9 @@
 //   The parser tests.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using LogAnalyzer.Parsing;
+
 namespace LogAnalyzer.Tests
 {
     using System;
@@ -34,57 +37,12 @@ namespace LogAnalyzer.Tests
         }
 
         /// <summary>
-        ///     The parse date line with invalid year.
-        /// </summary>
-        [TestMethod]
-        public void ParseDateLineWithInvalidYear()
-        {
-            Match match = Parser.DateStartRegEx.Match("% 14-06-07");
-
-            Assert.IsFalse(match.Success);
-        }
-
-        /// <summary>
-        ///     The parse date line with missing day.
-        /// </summary>
-        [TestMethod]
-        public void ParseDateLineWithMissingDay()
-        {
-            Match match = Parser.DateStartRegEx.Match("% 2014-06");
-
-            Assert.IsFalse(match.Success);
-        }
-
-        /// <summary>
-        ///     The parse date line with task with start and end fails.
-        /// </summary>
-        [TestMethod]
-        public void ParseDateLineWithTaskWithStartAndEndFails()
-        {
-            Match match = Parser.DateStartRegEx.Match("% DUMMY 12:01 9:01");
-
-            Assert.IsFalse(match.Success);
-        }
-
-        /// <summary>
-        ///     The parse date line with valid string test.
-        /// </summary>
-        [TestMethod]
-        public void ParseDateLineWithValidStringTest()
-        {
-            Match match = Parser.DateStartRegEx.Match("% 2014-06-07");
-
-            Assert.IsTrue(match.Success);
-            Assert.AreEqual("2014-06-07", match.Groups["date"].Value);
-        }
-
-        /// <summary>
         ///     The parse task delta line.
         /// </summary>
         [TestMethod]
         public void ParseTaskDeltaLine()
         {
-            Match match = Parser.TaskDeltaRegex.Match("% DUMMY +0:05");
+            Match match = TaskDeltaParsingStrategy.TaskDeltaRegex.Match("% DUMMY +0:05");
 
             Assert.IsTrue(match.Success);
         }
@@ -95,33 +53,12 @@ namespace LogAnalyzer.Tests
         [TestMethod]
         public void ParseTaskDeltaLine2()
         {
-            Match match = Parser.TaskDeltaRegex.Match("% DUMMY -0:05");
+            Match match = TaskDeltaParsingStrategy.TaskDeltaRegex.Match("% DUMMY -0:05");
 
             Assert.IsTrue(match.Success);
         }
 
-        /// <summary>
-        ///     The parse task line with task with start and end.
-        /// </summary>
-        [TestMethod]
-        public void ParseTaskLineWithTaskWithStartAndEnd()
-        {
-            Match match = Parser.TaskRegex.Match("% DUMMY 12:01 9:01");
 
-            Assert.IsTrue(match.Success);
-            Assert.AreEqual(4, match.Groups.Count);
-        }
-
-        /// <summary>
-        ///     The parse task line with valid date fails.
-        /// </summary>
-        [TestMethod]
-        public void ParseTaskLineWithValidDateFails()
-        {
-            Match match = Parser.TaskRegex.Match("% 2014-05-06");
-
-            Assert.IsFalse(match.Success);
-        }
 
         /// <summary>
         /// The parse with one day hold date.
@@ -129,8 +66,8 @@ namespace LogAnalyzer.Tests
         [TestMethod]
         public void ParseWithOneDayHoldDate()
         {
-            const string S = "% 2014-06-07";
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(S)))
+            const string s = "% 2014-06-07";
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(s)))
             using (StreamReader streamReader = new StreamReader(memoryStream))
             using (Parser parser = new Parser(streamReader))
             {
@@ -146,8 +83,8 @@ namespace LogAnalyzer.Tests
         [TestMethod]
         public void ParseWithTaskBeforeAnyDateHasError()
         {
-            const string S = "% TASKCODE 12:34 13:13";
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(S)))
+            const string s = "% TASKCODE 12:34 13:13";
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(s)))
             using (StreamReader streamReader = new StreamReader(memoryStream))
             using (Parser parser = new Parser(streamReader))
             {
@@ -156,7 +93,7 @@ namespace LogAnalyzer.Tests
                 Assert.AreEqual(0, parser.TaskEntries.Count());
                 Assert.AreEqual(1, parser.Errors.Count());
                 Assert.AreEqual(1, parser.Errors.First().LineNumber);
-                Assert.AreEqual(S, parser.Errors.First().LineText);
+                Assert.AreEqual(s, parser.Errors.First().LineText);
                 Assert.AreEqual(ErrorType.NoDateDefined, parser.Errors.First().ErrorType);
             }
         }
@@ -167,8 +104,8 @@ namespace LogAnalyzer.Tests
         [TestMethod]
         public void ParseWithTaskHoldTime()
         {
-            const string S = "% 2014-06-07\n" + "% TASKCODE 12:34 13:13";
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(S)))
+            const string s = "% 2014-06-07\n" + "% TASKCODE 12:34 13:13";
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(s)))
             using (StreamReader streamReader = new StreamReader(memoryStream))
             using (Parser parser = new Parser(streamReader))
             {
@@ -189,8 +126,8 @@ namespace LogAnalyzer.Tests
         [TestMethod]
         public void ParseWithTaskDateTest()
         {
-            const string S = "% 2014-06-07\n" + "% TASKCODE 12:34 13:13";
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(S)))
+            const string s = "% 2014-06-07\n" + "% TASKCODE 12:34 13:13";
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(s)))
             using (StreamReader streamReader = new StreamReader(memoryStream))
             using (Parser parser = new Parser(streamReader))
             {
@@ -206,8 +143,8 @@ namespace LogAnalyzer.Tests
         [TestMethod]
         public void ParseWithTaskPositiveDeltaHoldTime()
         {
-            const string S = "% 2014-06-07\n" + "% TASKCODE +0:05";
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(S)))
+            const string s = "% 2014-06-07\n" + "% TASKCODE +0:05";
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(s)))
             using (StreamReader streamReader = new StreamReader(memoryStream))
             using (Parser parser = new Parser(streamReader))
             {
@@ -228,8 +165,8 @@ namespace LogAnalyzer.Tests
         [TestMethod]
         public void ParseWithTaskNegativeDeltaHoldTime()
         {
-            const string S = "% 2014-06-07\n" + "% TASKCODE -0:05";
-            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(S)))
+            const string s = "% 2014-06-07\n" + "% TASKCODE -0:05";
+            using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(s)))
             using (StreamReader streamReader = new StreamReader(memoryStream))
             using (Parser parser = new Parser(streamReader))
             {

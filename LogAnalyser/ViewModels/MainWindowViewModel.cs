@@ -4,12 +4,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using LogAnalyzer.Parsing;
+
 namespace LogAnalyzer.ViewModels
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Data.Odbc;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -57,6 +58,7 @@ namespace LogAnalyzer.ViewModels
         private double normalizedTotalDuration;
 
         private TaskViewModel selectedTask;
+        private FileSystemWatcher fileSystemWatcher;
 
         #endregion
 
@@ -82,7 +84,19 @@ namespace LogAnalyzer.ViewModels
             set
             {
                 this.SetProperty(ref this.filename, value);
+                if (fileSystemWatcher != null)
+                {
+                    fileSystemWatcher.Changed -= FileSystemWatcher_Changed;
+                    fileSystemWatcher.Dispose();
+                    fileSystemWatcher = new FileSystemWatcher(value);
+                    fileSystemWatcher.Changed += FileSystemWatcher_Changed;
+                }
             }
+        }
+
+        private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsModified

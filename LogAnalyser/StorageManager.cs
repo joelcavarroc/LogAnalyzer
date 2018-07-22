@@ -1,9 +1,9 @@
-﻿namespace LogAnalyzer
+﻿using LogAnalyzer.Properties;
+
+namespace LogAnalyzer
 {
     using System.IO;
     using System.Text;
-
-    using LogAnalyzer.Annotations;
 
     [UsedImplicitly]
     class StorageManager : IStorageManager

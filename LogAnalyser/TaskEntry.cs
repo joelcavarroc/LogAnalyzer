@@ -9,12 +9,11 @@
 namespace LogAnalyzer
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     ///     The task entry.
     /// </summary>
-    public abstract class TaskEntry
+    public abstract class TaskEntry : LogEntry
     {
         #region Constructors and Destructors
 
@@ -26,23 +25,16 @@ namespace LogAnalyzer
         /// <param name="task">
         /// The task.
         /// </param>
-        protected TaskEntry(DateTime date, string task)
+        protected TaskEntry(DateTime date, string task) : base(task)
         {
             this.Date = date;
-            this.Task = task.ToUpper();
-            this.Comments = new List<string>();
         }
 
         #endregion
 
         #region Public Properties
 
-        /// <summary>
-        ///     Gets the comments.
-        /// </summary>
-        public List<string> Comments { get; private set; }
-
-        /// <summary>
+         /// <summary>
         /// Gets or sets the date.
         /// </summary>
         public DateTime Date { get; set; }
@@ -51,11 +43,6 @@ namespace LogAnalyzer
         ///     Gets the duration.
         /// </summary>
         public abstract TimeSpan Duration { get; }
-
-        /// <summary>
-        ///     Gets the task.
-        /// </summary>
-        public string Task { get; private set; }
 
         #endregion
     }

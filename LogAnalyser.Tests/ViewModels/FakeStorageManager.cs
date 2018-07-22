@@ -1,8 +1,8 @@
-﻿namespace LogAnalyzer.ViewModels.Tests
-{
-    using System.Collections.Generic;
-    using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
+namespace LogAnalyzer.Tests.ViewModels
+{
     public class FakeStorageManager : IStorageManager
     {
         private readonly Dictionary<string, StringWriter> stringWriters = new Dictionary<string, StringWriter>();

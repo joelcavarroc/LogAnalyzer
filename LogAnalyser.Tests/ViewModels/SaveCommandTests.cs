@@ -1,10 +1,9 @@
-﻿namespace LogAnalyzer.ViewModels.Tests
+﻿using System.Linq;
+using LogAnalyzer.ViewModels;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace LogAnalyzer.Tests.ViewModels
 {
-    using System.Linq;
-    using System.Security.Cryptography;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     [TestClass]
     public class SaveCommandTests
     {
@@ -93,10 +92,10 @@
             MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
             saveCommand.MainWindowViewModel = mainWindowViewModel;
             mainWindowViewModel.Filename = "dummy.txt";
-            const string InitialText = "Initial text";
-            mainWindowViewModel.LastSavedText = InitialText;
-            const string FinalText = "Final Test";
-            mainWindowViewModel.LogText = FinalText;
+            const string initialText = "Initial text";
+            mainWindowViewModel.LastSavedText = initialText;
+            const string finalText = "Final Test";
+            mainWindowViewModel.LogText = finalText;
 
             saveCommand.Execute(null);
 
@@ -104,9 +103,9 @@
             Assert.IsTrue(fakeStorageManager.StringWriters.ContainsKey("dummy.txt"), "The command should save the content.");
             Assert.IsTrue(fakeStorageManager.StringWriters.ContainsKey("dummy.txt.bak"), "The command should create a backup of the initial content.");
 
-            Assert.AreEqual(FinalText, mainWindowViewModel.LastSavedText);
-            Assert.AreEqual(FinalText, fakeStorageManager.StringWriters["dummy.txt"].ToString());
-            Assert.AreEqual(InitialText, fakeStorageManager.StringWriters["dummy.txt.bak"].ToString());
+            Assert.AreEqual(finalText, mainWindowViewModel.LastSavedText);
+            Assert.AreEqual(finalText, fakeStorageManager.StringWriters["dummy.txt"].ToString());
+            Assert.AreEqual(initialText, fakeStorageManager.StringWriters["dummy.txt.bak"].ToString());
         }
 
 

@@ -27,6 +27,7 @@ namespace LogAnalyzer
         /// The invalid delta.
         /// </summary>
         InvalidDelta,
-        InvalidLine
+        InvalidLine,
+        CommentFoundBeforeTask
     }
 }

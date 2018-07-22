@@ -1,8 +1,8 @@
-﻿using LogAnalyzer.Tests.ViewModels;
-namespace LogAnalyzer.ViewModels.Tests
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using LogAnalyzer.ViewModels;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+namespace LogAnalyzer.Tests.ViewModels
+{
     [TestClass()]
     public class LoadCommandTests
     {

@@ -51,6 +51,7 @@ namespace LogAnalyzer.ViewModels
 
         #region Public Methods and Operators
 
+        /// <inheritdoc />
         /// <summary>
         ///     The can execute.
         /// </summary>
@@ -58,13 +59,14 @@ namespace LogAnalyzer.ViewModels
         ///     The parameter.
         /// </param>
         /// <returns>
-        ///     The <see cref="bool" />.
+        ///     The <see cref="T:System.Boolean" />.
         /// </returns>
         public bool CanExecute(object parameter)
         {
             return true;
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     The execute.
         /// </summary>

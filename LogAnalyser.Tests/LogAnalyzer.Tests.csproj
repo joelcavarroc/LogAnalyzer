@@ -63,6 +63,8 @@
   <ItemGroup>
     <Compile Include="AnalyzerError.cs" />
     <Compile Include="ParserTests.cs" />
+    <Compile Include="Parsing\TaskParsingStrategyTests.cs" />
+    <Compile Include="Parsing\DateParsingStrategyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskEntryAnalyzerTests.cs" />
     <Compile Include="ViewModels\FakeOpenFileDialogService.cs" />

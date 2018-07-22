@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using LogAnalyzer.Properties;
+
 namespace LogAnalyzer.ViewModels
 {
     using System;
@@ -14,8 +16,6 @@ namespace LogAnalyzer.ViewModels
     using System.IO;
     using System.Text;
     using System.Windows.Input;
-
-    using LogAnalyzer.Annotations;
 
     /// <summary>
     /// The save command.

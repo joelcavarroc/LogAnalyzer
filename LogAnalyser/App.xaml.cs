@@ -20,13 +20,13 @@ namespace LogAnalyzer
     /// </summary>
     public partial class App
     {
-        private static CompositionContainer container;
+        private static CompositionContainer _container;
 
         public static CompositionContainer Container
         {
             get
             {
-                return container;
+                return App._container;
             }
         }
 
@@ -52,7 +52,7 @@ namespace LogAnalyzer
             builder.ForType<StorageManager>().Export<IStorageManager>();
 
             AssemblyCatalog cat = new AssemblyCatalog(typeof(App).Assembly, builder);
-            container = new CompositionContainer(cat);
+            App._container = new CompositionContainer(cat);
 
             base.OnStartup(e);
         }

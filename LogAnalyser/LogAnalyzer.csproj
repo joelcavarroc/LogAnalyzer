@@ -99,9 +99,17 @@
     <Compile Include="AnalyzerError.cs" />
     <Compile Include="ErrorType.cs" />
     <Compile Include="IOpenFileDialogService.cs" />
+    <Compile Include="Parsing\DateParsingStrategy.cs" />
+    <Compile Include="Parsing\IParsingStrategy.cs" />
     <Compile Include="IStorageManager.cs" />
+    <Compile Include="LogEntry.cs" />
     <Compile Include="OpenFileDialogService.cs" />
     <Compile Include="ParserErrorInfo.cs" />
+    <Compile Include="Parsing\ParsingContext.cs" />
+    <Compile Include="Parsing\RegexParsingStrategyBase.cs" />
+    <Compile Include="Parsing\TagParsingStrategy.cs" />
+    <Compile Include="Parsing\TaskDeltaParsingStrategy.cs" />
+    <Compile Include="Parsing\TaskParsingStrategy.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="StorageManager.cs" />
     <Compile Include="TagEntry.cs" />
@@ -132,7 +140,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parser.cs" />
+    <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,9 +1,8 @@
-﻿namespace LogAnalyzer
+﻿using LogAnalyzer.Properties;
+
+namespace LogAnalyzer
 {
     using System.IO;
-
-    using LogAnalyzer.Annotations;
-
     using Microsoft.Win32;
 
     [UsedImplicitly]
