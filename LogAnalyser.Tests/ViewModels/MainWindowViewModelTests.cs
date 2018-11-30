@@ -39,9 +39,7 @@ namespace LogAnalyzer.Tests.ViewModels
         [TestMethod()]
         public void WhenModifiedModificationIndicatorIsStartTest()
         {
-            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
-
-            mainWindowViewModel.LogText = "dummy";
+            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel {LogText = "dummy"};
 
             Assert.AreEqual("*", mainWindowViewModel.ModificationIndicator);
         }

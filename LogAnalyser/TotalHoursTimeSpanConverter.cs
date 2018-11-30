@@ -20,7 +20,7 @@
 
             TimeSpan timespan = (TimeSpan)value;
 
-            return string.Format("{0:00}:{1:00;00;00}", timespan.Hours + timespan.Days * 24, timespan.Minutes);
+            return $"{timespan.Hours + timespan.Days * 24:00}:{timespan.Minutes:00;00;00}";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

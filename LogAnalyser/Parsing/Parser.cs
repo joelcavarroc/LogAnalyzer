@@ -11,11 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
+using LogAnalyzer.Model;
 
 namespace LogAnalyzer.Parsing
 {
@@ -39,7 +38,9 @@ namespace LogAnalyzer.Parsing
         /// <summary>
         ///     The task entries.
         /// </summary>
-        private Dictionary<TaskEntry, int> taskEntries = new Dictionary<TaskEntry, int>();
+        private Dictionary<TaskEntry, int> taskEntries;
+
+        public Dictionary<TaggedEntry, int> TaggedEntries { get; private set; }
 
         private List<IParsingStrategy> parsingStrategies;
 
@@ -141,6 +142,7 @@ namespace LogAnalyzer.Parsing
             }
 
             this.taskEntries = parsingContext.TaskEntries;
+            this.TaggedEntries = parsingContext.TaggedEntries;
             this.Errors = parsingContext.Errors;
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using LogAnalyzer.Model;
 
 namespace LogAnalyzer.Parsing
 {

@@ -13,7 +13,7 @@ namespace LogAnalyzer
     using System.ComponentModel.Composition.Registration;
     using System.Windows;
 
-    using LogAnalyzer.ViewModels;
+    using ViewModels;
 
     /// <summary>
     ///     Interaction logic for App.xaml

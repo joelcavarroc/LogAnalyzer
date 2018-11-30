@@ -23,7 +23,7 @@
 
         public bool Multiselect { get; set; }
 
-        public bool? ShowDialogResult { get; set; }
+        public bool? ShowDialogResult { private get; set; }
 
         #endregion
 
@@ -31,12 +31,12 @@
 
         public Stream OpenFile()
         {
-            return new MemoryStream(UTF8Encoding.UTF8.GetBytes(this.FileContent));
+            return new MemoryStream(Encoding.UTF8.GetBytes(this.FileContent));
         }
 
         public string Filter { get; set; }
 
-        public string FileContent { get; set; }
+        public string FileContent { get; }
 
         public bool? ShowDialog()
         {

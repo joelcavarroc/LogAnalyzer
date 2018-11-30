@@ -327,7 +327,7 @@ namespace LogAnalyzer.Properties
   [Flags]
   public enum ImplicitUseKindFlags
   {
-    Default = Access | Assign | InstantiatedWithFixedConstructorSignature,
+    Default = ImplicitUseKindFlags.Access | ImplicitUseKindFlags.Assign | ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature,
     /// <summary>Only entity marked with attribute considered used</summary>
     Access = 1,
     /// <summary>Indicates implicit assignment to a member</summary>
@@ -349,12 +349,12 @@ namespace LogAnalyzer.Properties
   [Flags]
   public enum ImplicitUseTargetFlags
   {
-    Default = Itself,
+    Default = ImplicitUseTargetFlags.Itself,
     Itself = 1,
     /// <summary>Members of entity marked with attribute are considered used</summary>
     Members = 2,
     /// <summary>Entity marked with attribute and all its members considered used</summary>
-    WithMembers = Itself | Members
+    WithMembers = ImplicitUseTargetFlags.Itself | ImplicitUseTargetFlags.Members
   }
 
   /// <summary>

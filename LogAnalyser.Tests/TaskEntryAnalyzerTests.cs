@@ -7,10 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using LogAnalyzer.Analysing;
+using LogAnalyzer.Model;
+
 namespace LogAnalyzer.Tests
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 

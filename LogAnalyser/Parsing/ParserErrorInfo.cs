@@ -6,7 +6,7 @@
 //   The parser error info.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace LogAnalyzer
+namespace LogAnalyzer.Parsing
 {
     /// <summary>
     ///     The parser error info.

@@ -1,30 +1,32 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WorkDay.cs" company="JCS">
+// <copyright file="TaskEntry.cs" company="JCS">
 //   JCSCopyright
 // </copyright>
 // <summary>
-//   The work day.
+//   The task entry.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogAnalyzer
-{
-    using System;
+using System;
 
+namespace LogAnalyzer.Model
+{
     /// <summary>
-    /// The work day.
+    ///     The task entry.
     /// </summary>
-    public class WorkDay
+    public abstract class TaskEntry : LogEntry
     {
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WorkDay"/> class.
+        /// Initializes a new instance of the <see cref="TaskEntry"/> class.
         /// </summary>
         /// <param name="date">
-        /// The date.
         /// </param>
-        public WorkDay(DateTime date)
+        /// <param name="task">
+        /// The task.
+        /// </param>
+        protected TaskEntry(DateTime date, string task) : base(task)
         {
             this.Date = date;
         }
@@ -33,15 +35,15 @@ namespace LogAnalyzer
 
         #region Public Properties
 
-        /// <summary>
+         /// <summary>
         /// Gets or sets the date.
         /// </summary>
-        public DateTime Date { get; set; }
+        public DateTime Date { get; private set; }
 
         /// <summary>
-        /// Gets or sets the total duration.
+        ///     Gets the duration.
         /// </summary>
-        public TimeSpan TotalDuration { get; set; }
+        public abstract TimeSpan Duration { get; }
 
         #endregion
     }

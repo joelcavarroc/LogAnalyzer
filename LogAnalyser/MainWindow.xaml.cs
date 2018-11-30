@@ -11,7 +11,7 @@ namespace LogAnalyzer
     using System.Windows;
     using System.Windows.Input;
 
-    using LogAnalyzer.ViewModels;
+    using ViewModels;
 
     /// <summary>
     ///     Interaction logic for MainWindow
@@ -81,7 +81,7 @@ namespace LogAnalyzer
             if (this.TasksGrid.SelectedItem != null)
             {
                 TaskViewModel taskViewModel = (TaskViewModel)this.TasksGrid.SelectedItem;
-                string regExString = string.Format(@"^%\s+{0}\s+.*$", taskViewModel.TaskCode);
+                string regExString = $@"^%\s+{taskViewModel.TaskCode}\s+.*$";
 
                 Regex regex = new Regex(regExString, RegexOptions.Multiline|RegexOptions.IgnoreCase);
                 string currentlySelectedText = this.LogTextBox.SelectedText;
@@ -138,11 +138,8 @@ namespace LogAnalyzer
             if (this.WorkedDays.SelectedItem != null)
             {
                 WorkDayViewModel workDayViewModel = (WorkDayViewModel)this.WorkedDays.SelectedItem;
-                string regExString = string.Format(
-                    @"^%\s+{0}-{1:D2}-{2:D2}\s*$",
-                    workDayViewModel.Date.Year,
-                    workDayViewModel.Date.Month,
-                    workDayViewModel.Date.Day);
+                string regExString =
+                    $@"^%\s+{workDayViewModel.Date.Year}-{workDayViewModel.Date.Month:D2}-{workDayViewModel.Date.Day:D2}\s*$";
 
                 Regex regex = new Regex(regExString, RegexOptions.Multiline|RegexOptions.IgnoreCase);
 

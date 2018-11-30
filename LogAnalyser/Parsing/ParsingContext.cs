@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LogAnalyzer.Model;
 
 namespace LogAnalyzer.Parsing
 {
@@ -17,5 +18,6 @@ namespace LogAnalyzer.Parsing
 
         public Dictionary<TaskEntry, int> TaskEntries { get; }= new Dictionary<TaskEntry, int>();
 
+        public Dictionary<TaggedEntry, int> TaggedEntries { get; } = new Dictionary<TaggedEntry, int>();
     }
 }

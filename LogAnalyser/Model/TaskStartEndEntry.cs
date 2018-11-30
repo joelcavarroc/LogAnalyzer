@@ -6,10 +6,11 @@
 //   The task start end entry.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace LogAnalyzer
-{
-    using System;
 
+using System;
+
+namespace LogAnalyzer.Model
+{
     /// <summary>
     ///     The task start end entry.
     /// </summary>

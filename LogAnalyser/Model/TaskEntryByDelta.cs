@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogAnalyzer
-{
-    using System;
+using System;
 
+namespace LogAnalyzer.Model
+{
     /// <summary>
     /// The task entry by delta.
     /// </summary>

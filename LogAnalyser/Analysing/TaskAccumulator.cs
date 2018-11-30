@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogAnalyzer
-{
-    using System;
+using System;
 
+namespace LogAnalyzer.Analysing
+{
     /// <summary>
     /// The task accumulator.
     /// </summary>
@@ -41,7 +41,7 @@ namespace LogAnalyzer
         /// <summary>
         /// Gets or sets the task code.
         /// </summary>
-        public string TaskCode { get; set; }
+        public string TaskCode { get; private set; }
 
         /// <summary>
         /// Gets or sets the total duration.

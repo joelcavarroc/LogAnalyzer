@@ -1,8 +1,8 @@
-﻿namespace LogAnalyzer
+﻿namespace LogAnalyzer.Model
 {
-    class TagEntry
+    public class TaggedEntry
     {
-        public TagEntry(string tag, string comment)
+        public TaggedEntry(string tag, string comment)
         {
             this.Tag = tag;
             this.Comment = comment;

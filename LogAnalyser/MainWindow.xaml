@@ -51,8 +51,8 @@
         </Menu>
         <ToolBarTray Grid.Row="1">
             <ToolBar Band="1" BandIndex="1">
-                <Button x:Name="LoadButton" Command="{Binding LoadCommand}" Content="Open..."/>
-                <Button x:Name="SaveButton" Command="{Binding SaveCommand}" Content="Save" />
+                <Button Command="{Binding LoadCommand}" Content="Open..."/>
+                <Button Command="{Binding SaveCommand}" Content="Save" />
                 <Button Content="Analyze"/>
             </ToolBar>
         </ToolBarTray>
@@ -63,6 +63,7 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <DataGrid x:Name="WorkedDays" Grid.Column="0" IsReadOnly="True" ItemsSource="{Binding WorkDays}" AutoGenerateColumns="False" AlternatingRowBackground="CornflowerBlue" MouseDoubleClick="WorkedDaysMouseDoubleClick">
                 <DataGrid.Columns>
@@ -85,6 +86,23 @@
                 </DataGrid.Columns>
             </DataGrid>
             <GridSplitter Width="5" ShowsPreview="True" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Center" ResizeDirection="Columns" Visibility="{Binding IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=Expander, Mode=OneWay}" />
+            <TreeView Grid.Column="5" ItemsSource="{Binding TagTypes}">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="True" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding TaggedEntries}">
+                        <TextBlock Text='{Binding Name}' />
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <HierarchicalDataTemplate>
+                                <TextBlock Text="{Binding Content}"/>
+                            </HierarchicalDataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
             <Expander Name="Expander" Grid.Column="4" ExpandDirection="Right">
             </Expander>
         </Grid>
@@ -98,7 +116,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <GridSplitter Grid.Row="1" Height="5" ShowsPreview="True" VerticalAlignment="Center" HorizontalAlignment="Stretch" ResizeDirection="Rows" ResizeBehavior="PreviousAndCurrent"/>
-                <ListBox x:Name="ErrorListBox" Grid.Row="0" ItemsSource="{Binding Errors}" MouseDoubleClick="Control_OnMouseDoubleClick" SelectedItem="{Binding SelectedError}" >
+                <ListBox Grid.Row="0" ItemsSource="{Binding Errors}" MouseDoubleClick="Control_OnMouseDoubleClick" SelectedItem="{Binding SelectedError}" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock>

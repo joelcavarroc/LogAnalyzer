@@ -95,37 +95,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AnalyzerErrorType.cs" />
-    <Compile Include="AnalyzerError.cs" />
+    <Compile Include="Analysing\AnalyzerErrorType.cs" />
+    <Compile Include="Analysing\TaggedEntryAnalyser.cs" />
+    <Compile Include="Model\AnalyzerError.cs" />
     <Compile Include="ErrorType.cs" />
     <Compile Include="IOpenFileDialogService.cs" />
     <Compile Include="Parsing\DateParsingStrategy.cs" />
     <Compile Include="Parsing\IParsingStrategy.cs" />
     <Compile Include="IStorageManager.cs" />
-    <Compile Include="LogEntry.cs" />
+    <Compile Include="Model\LogEntry.cs" />
     <Compile Include="OpenFileDialogService.cs" />
-    <Compile Include="ParserErrorInfo.cs" />
+    <Compile Include="Parsing\ParserErrorInfo.cs" />
     <Compile Include="Parsing\ParsingContext.cs" />
     <Compile Include="Parsing\RegexParsingStrategyBase.cs" />
-    <Compile Include="Parsing\TagParsingStrategy.cs" />
+    <Compile Include="Parsing\ActivityParsingStrategy.cs" />
     <Compile Include="Parsing\TaskDeltaParsingStrategy.cs" />
     <Compile Include="Parsing\TaskParsingStrategy.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="StorageManager.cs" />
-    <Compile Include="TagEntry.cs" />
-    <Compile Include="TaskAccumulator.cs" />
-    <Compile Include="TaskEntry.cs" />
-    <Compile Include="TaskEntryAnalyser.cs" />
-    <Compile Include="TaskEntryByDelta.cs" />
+    <Compile Include="Model\TaggedEntry.cs" />
+    <Compile Include="Analysing\TaskAccumulator.cs" />
+    <Compile Include="Model\TaskEntry.cs" />
+    <Compile Include="Analysing\TaskEntryAnalyser.cs" />
+    <Compile Include="Model\TaskEntryByDelta.cs" />
     <Compile Include="TotalHoursTimeSpanConverter.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\LoadCommand.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SaveCommand.cs" />
+    <Compile Include="ViewModels\TaggedEntryViewModel.cs" />
+    <Compile Include="ViewModels\TagTypeViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModels\WorkDayViewModel.cs" />
-    <Compile Include="WorkDay.cs" />
-    <Compile Include="TaskStartEndEntry.cs" />
+    <Compile Include="Model\WorkDay.cs" />
+    <Compile Include="Model\TaskStartEndEntry.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -173,6 +176,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

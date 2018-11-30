@@ -1,4 +1,6 @@
-﻿namespace LogAnalyzer
+﻿using LogAnalyzer.Analysing;
+
+namespace LogAnalyzer.Model
 {
     public class AnalyzerError
     {

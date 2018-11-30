@@ -6,12 +6,14 @@
 //   The task entry Analyzer.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace LogAnalyzer
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using LogAnalyzer.Model;
+
+namespace LogAnalyzer.Analysing
+{
     /// <summary>
     ///     The task entry Analyzer.
     /// </summary>
@@ -40,7 +42,7 @@ namespace LogAnalyzer
         {
             if (taskEntries == null)
             {
-                throw new ArgumentNullException("taskEntries");
+                throw new ArgumentNullException(nameof(taskEntries));
             }
 
             this.taskEntries = taskEntries;
@@ -63,31 +65,23 @@ namespace LogAnalyzer
         {
             IEnumerable<IGrouping<DateTime, TaskEntry>> groupedByDate = this.taskEntries.GroupBy(t => t.Date);
 
-            List<WorkDay> tasksPerDay = new List<WorkDay>();
-
-            foreach (IGrouping<DateTime, TaskEntry> taskGroup in groupedByDate)
-            {
-                WorkDay workDay = new WorkDay(taskGroup.Key)
-                                      {
-                                          TotalDuration =
-                                              taskGroup.Aggregate(
-                                                  new TimeSpan(), 
-                                                  (current, taskEntry) =>
-                                                  current + taskEntry.Duration)
-                                      };
-                tasksPerDay.Add(workDay);
-            }
-
-            return tasksPerDay;
+            return groupedByDate.Select(
+                    taskGroup => new WorkDay(taskGroup.Key)
+                    {
+                        TotalDuration = taskGroup.Aggregate(
+                            new TimeSpan(),
+                            (current, taskEntry) => current + taskEntry.Duration)
+                    })
+                .ToList();
         }
 
         /// <summary>
         ///     The Analyze by task.
         /// </summary>
         /// <returns>
-        ///     The <see cref="List" />.
+        ///     The <see />.
         /// </returns>
-        public List<TaskAccumulator> AnalyzeByTask()
+        public IEnumerable<TaskAccumulator> AnalyzeByTask()
         {
             IEnumerable<IGrouping<string, TaskEntry>> groupedByTask = this.taskEntries.GroupBy(t => t.Task);
 

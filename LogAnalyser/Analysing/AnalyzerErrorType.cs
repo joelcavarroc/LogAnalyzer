@@ -4,19 +4,12 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogAnalyzer
+namespace LogAnalyzer.Analysing
 {
-    public interface IOpenFileDialogService
+    public enum AnalyzerErrorType
     {
-        bool? ShowDialog();
-        string FileName { get; set; }
+        StartAfterEndError,
 
-        bool CheckFileExists { get; set; }
-
-        bool Multiselect { get; set; }
-
-        System.IO.Stream OpenFile();
-
-        string Filter { get; set; }
+        OverlappingTasks
     }
 }

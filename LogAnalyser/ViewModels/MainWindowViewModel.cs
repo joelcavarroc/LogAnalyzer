@@ -4,7 +4,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using LogAnalyzer.Analysing;
+using LogAnalyzer.Model;
 using LogAnalyzer.Parsing;
+using Microsoft.Practices.Prism;
 
 namespace LogAnalyzer.ViewModels
 {
@@ -22,22 +28,8 @@ namespace LogAnalyzer.ViewModels
     /// </summary>
     public class MainWindowViewModel : BindableBase
     {
+
         #region Fields
-
-        /// <summary>
-        ///     The errors.
-        /// </summary>
-        private readonly ObservableCollection<ErrorViewModel> errors = new ObservableCollection<ErrorViewModel>();
-
-        /// <summary>
-        ///     The tasks.
-        /// </summary>
-        private readonly ObservableCollection<TaskViewModel> tasks = new ObservableCollection<TaskViewModel>();
-
-        /// <summary>
-        ///     The work days view models.
-        /// </summary>
-        private readonly ObservableCollection<WorkDayViewModel> workDays = new ObservableCollection<WorkDayViewModel>();
 
         private string filename;
 
@@ -53,12 +45,12 @@ namespace LogAnalyzer.ViewModels
         /// </summary>
         private ErrorViewModel selectedError;
 
-        private SaveCommand saveCommand;
-
         private double normalizedTotalDuration;
 
         private TaskViewModel selectedTask;
         private FileSystemWatcher fileSystemWatcher;
+        private Task analyzeTask;
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         #endregion
 
@@ -67,13 +59,7 @@ namespace LogAnalyzer.ViewModels
         /// <summary>
         ///     Gets the errors.
         /// </summary>
-        public ObservableCollection<ErrorViewModel> Errors
-        {
-            get
-            {
-                return this.errors;
-            }
-        }
+        public ObservableCollection<ErrorViewModel> Errors { get; } = new ObservableCollection<ErrorViewModel>();
 
         public string Filename
         {
@@ -142,7 +128,22 @@ namespace LogAnalyzer.ViewModels
                 this.SetProperty(ref this.logText, value);
                 this.OnPropertyChanged(() => this.IsModified);
                 this.OnPropertyChanged(() => this.ModificationIndicator);
-                this.AnalyzeLog();
+
+                bool? isTaskCompleted = this.analyzeTask?.IsCompleted;
+                if (isTaskCompleted.HasValue && !isTaskCompleted.Value)
+                {
+                    this.cancellationTokenSource.Cancel();
+                }
+
+                this.analyzeTask = Task.Run(
+                        async delegate
+                        {
+                            await Task.Delay(TimeSpan.FromSeconds(0.1));
+                            // Execute the update on the Application main dispatcher as it does not multithreaded update.
+                            Application.Current.Dispatcher.Invoke(this.AnalyzeLog);
+                        },
+                        this.cancellationTokenSource.Token);
+                
             }
         }
 
@@ -158,17 +159,7 @@ namespace LogAnalyzer.ViewModels
             }
         }
 
-        public SaveCommand SaveCommand
-        {
-            get
-            {
-                return this.saveCommand;
-            }
-            set
-            {
-                this.saveCommand = value;
-            }
-        }
+        public SaveCommand SaveCommand { get; set; }
 
         /// <summary>
         ///     The selected error.
@@ -188,24 +179,14 @@ namespace LogAnalyzer.ViewModels
         /// <summary>
         ///     Gets the tasks.
         /// </summary>
-        public ObservableCollection<TaskViewModel> Tasks
-        {
-            get
-            {
-                return this.tasks;
-            }
-        }
+        public ObservableCollection<TaskViewModel> Tasks { get; } = new ObservableCollection<TaskViewModel>();
 
         /// <summary>
         ///     Gets the work days view models.
         /// </summary>
-        public ObservableCollection<WorkDayViewModel> WorkDays
-        {
-            get
-            {
-                return this.workDays;
-            }
-        }
+        public ObservableCollection<WorkDayViewModel> WorkDays { get; } = new ObservableCollection<WorkDayViewModel>();
+
+        public ObservableCollection<TagTypeViewModel> TagTypes { get; } = new ObservableCollection<TagTypeViewModel>();
 
         #endregion
 
@@ -226,9 +207,18 @@ namespace LogAnalyzer.ViewModels
                 this.UpdateWorkDays(taskEntryAnalyzer);
                 this.UpdateTasks(taskEntryAnalyzer);
 
+                TaggedEntryAnalyser taggedEntryAnalyser = new TaggedEntryAnalyser();
+                this.UpdateTaggedEntries(taggedEntryAnalyser.Analyse(parser.TaggedEntries.Keys));
 
                 this.UpdateErrors(parser, taskEntryAnalyzer);
             }
+        }
+
+        private void UpdateTaggedEntries(List<TagTypeViewModel> tagTypes)
+        {
+            this.TagTypes.Clear();
+
+            this.TagTypes.AddRange(tagTypes.OrderBy(t => t.Name));
         }
 
         /// <summary>
@@ -240,10 +230,10 @@ namespace LogAnalyzer.ViewModels
         /// <param name="analyzer"></param>
         private void UpdateErrors(Parser parser, TaskEntryAnalyzer analyzer)
         {
-            this.errors.Clear();
+            this.Errors.Clear();
             foreach (ParserErrorInfo error in parser.Errors)
             {
-                this.errors.Add(
+                this.Errors.Add(
                     new ErrorViewModel
                     {
                         Line = error.LineNumber,
@@ -270,7 +260,7 @@ namespace LogAnalyzer.ViewModels
                         stringBuilder.AppendFormat("{0} ({1})", line, lineNumber);
                     }
 
-                    this.errors.Add(
+                    this.Errors.Add(
                         new ErrorViewModel { ErrorText = error.ErrorType.ToString(), Line = lineInError, LineText = "" });
                 }
             }
@@ -314,9 +304,7 @@ namespace LogAnalyzer.ViewModels
             double totalDuration = 0;
             foreach (TaskAccumulator task in taskEntryAnalyzer.AnalyzeByTask().OrderBy(t => t.TaskCode))
             {
-                TaskViewModel taskViewModel;
-
-                if (!taskEntries.TryGetValue(task.TaskCode, out taskViewModel))
+                if (!taskEntries.TryGetValue(task.TaskCode, out TaskViewModel taskViewModel))
                 {
                     taskViewModel = new TaskViewModel();
                     this.Tasks.Add(taskViewModel);

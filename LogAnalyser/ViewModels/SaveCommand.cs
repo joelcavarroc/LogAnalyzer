@@ -14,7 +14,6 @@ namespace LogAnalyzer.ViewModels
     using System;
     using System.Diagnostics.Contracts;
     using System.IO;
-    using System.Text;
     using System.Windows.Input;
 
     /// <summary>
@@ -33,9 +32,7 @@ namespace LogAnalyzer.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="SaveCommand"/> class.
         /// </summary>
-        /// <param name="mainWindowViewModel">
-        /// The main window view model.
-        /// </param>
+        /// <param name="storageManager"></param>
         public SaveCommand(IStorageManager storageManager)
         {
             Contract.Requires(storageManager != null);

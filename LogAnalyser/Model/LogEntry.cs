@@ -2,15 +2,13 @@
 
 using System.Collections.Generic;
 
-namespace LogAnalyzer
+namespace LogAnalyzer.Model
 {
     public abstract class LogEntry
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskEntry"/> class.
         /// </summary>
-        /// <param name="date">
-        /// </param>
         /// <param name="task">
         /// The task.
         /// </param>
